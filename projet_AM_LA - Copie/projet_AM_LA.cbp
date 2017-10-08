@@ -37,9 +37,15 @@
 			<Add option="-lmingw32" />
 			<Add option="-lSDL2main" />
 			<Add option="-lSDL2" />
+			<Add option="-lSDL2_image" />
+			<Add option="-lSDL2_ttf" />
 			<Add library="../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libmingw32.a" />
 			<Add library="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib/libSDL2main.a" />
 			<Add library="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib/libSDL2.dll.a" />
+			<Add library="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib/libSDL2_image.a" />
+			<Add library="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib/libSDL2_image.dll.a" />
+			<Add library="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib/libSDL2_ttf.a" />
+			<Add library="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib/libSDL2_ttf.dll.a" />
 			<Add directory="../../../../Program Files (x86)/CodeBlocks/MinGW/lib" />
 			<Add directory="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib" />
 		</Linker>

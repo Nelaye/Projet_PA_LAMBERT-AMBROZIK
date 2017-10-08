@@ -422,3 +422,56 @@
 	<stdlib.h>
 	<stdio.h>
 
+1507471514 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\main.c
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"constante.h"
+	"sprite_t.h"
+	"map.h"
+
+1507471231 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\constante.h
+
+1507470172 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\sprite_t.h
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<stdio.h>
+	<stdlib.h>
+
+1507470706 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\map.c
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<math.h>
+	"constante.h"
+	"sprite_t.h"
+
+1507471218 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\sprite_t.c
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<math.h>
+	"constante.h"
+	"sprite_t.h"
+
+1341010376 c:\program files (x86)\codeblocks\mingw\include\time.h
+	<_mingw.h>
+	<stddef.h>
+
+1376160143 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1376159942 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1507468742 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\map.h
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<stdlib.h>
+	<stdio.h>
+
