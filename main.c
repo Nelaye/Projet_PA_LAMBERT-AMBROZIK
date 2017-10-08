@@ -47,8 +47,8 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
     int i,j ;
     SDL_RenderClear(renderer);
     SDL_Rect block;
-    block.h=HAUTEUR_TILE;
-    block.w=LARGEUR_TILE    ;
+    block.h=100;
+    block.w=100;
     block.y=0;
     for(i=0;i<NOMBRE_BLOCK_LARGEUR;i++)
 	{
@@ -87,18 +87,24 @@ int main(int argc, char **argv)
   SDL_Event event;
 
   bool running = true;
+  bool Right = true;
+  bool Left = true;
+  bool Up = true;
+  bool Saut= false;
 
-    SDL_Texture *T_sprite_hero, *T_background , *T_sous, *T_tiple;
-    SDL_Rect *R_sprite_hero, *R_background , *R_sous, *R_tiple;
+  int compt=0;
+
+    SDL_Texture *T_sprite_hero, *T_background, *T_tiple;
+    SDL_Rect *R_sprite_hero, *R_background, *R_tiple;
     SDL_Surface *temp;
 
-    unsigned int i, j;
     char **tab2 ;
 
     window = SDL_CreateWindow("Project AMBROZIK LAMBERT", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 
     renderer = SDL_CreateRenderer(window, -1, 0);
 
+    SDL_SetRenderDrawColor(renderer,255,255,255,255);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 
@@ -121,7 +127,7 @@ int main(int argc, char **argv)
     T_tiple = SDL_CreateTextureFromSurface(renderer, temp);
 
     //Afficher(R_tiple, T_tiple,table,NOMBRE_BLOCK_LARGEUR,NOMBRE_BLOCK_HAUTEUR);
-    sprite_cons(R_tiple, 100,100,0,0 );
+    sprite_cons(R_tiple, 50,50,0,0 );
     SDL_Rect block;
     block.h=15;
     block.w=15;
@@ -136,15 +142,7 @@ int main(int argc, char **argv)
     R_sprite_hero  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = SDL_LoadBMP("picture/sprite.bmp");
     T_sprite_hero = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(R_sprite_hero, 15,15,10,350);
-
-    //sous
-    T_sous = NULL;
-    temp = NULL;
-    R_sous = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = SDL_LoadBMP("picture/yo.bmp");
-    T_sous = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(R_sous, 1900,100,0, 400);
+    sprite_cons(R_sprite_hero, 20,20,10,50);
 
 
 
@@ -159,10 +157,9 @@ int main(int argc, char **argv)
 
                 if (event.type== SDL_KEYDOWN)
                 {
-                    if (event.key.keysym.sym == SDLK_z)
+                    if ((event.key.keysym.sym == SDLK_z) && (Up==true))
                     {
-                        R_sprite_hero->y-=10;
-
+                        Saut=true;
                     }
 
                     if (event.key.keysym.sym == SDLK_d)
@@ -173,20 +170,24 @@ int main(int argc, char **argv)
                         }
                         else
                         {
-                              R_sprite_hero->x+=10;
+                            if (Right==true)
+                            {
+                                R_sprite_hero->x+=5;
+
+                            }
 
                         }
 
                     }
-                    if (event.key.keysym.sym == SDLK_q)
+                    if ((event.key.keysym.sym == SDLK_q) &&  (Left == true))
                     {
-                        R_sprite_hero->x-=10;
+                        R_sprite_hero->x-=5;
 
                     }
 
                     if (event.key.keysym.sym == SDLK_s)
                     {
-                        R_sprite_hero->y+=10;
+
 
                     }
 
@@ -201,13 +202,6 @@ int main(int argc, char **argv)
 
 
         /**DeplaceSprite(R_sprite_hero,);**/
-
-        //R_sprite_hero->y++;
-        int X,Y;
-        X=R_sprite_hero->x/HAUTEUR_TILE;
-        Y=R_sprite_hero->y/HAUTEUR_TILE;
-
-        CollideDown(&R_sprite_hero,tab2,X,Y);
 
         if(R_sprite_hero->x<0)
         {
@@ -229,6 +223,18 @@ int main(int argc, char **argv)
             R_sprite_hero->y=0;
         }
 
+        if (Saut == true)
+        {
+            R_sprite_hero->y = R_sprite_hero->y - 10;
+            compt = compt + 1;
+
+            if (compt==10)
+            {
+                Saut=false;
+                compt=0;
+            }
+        }
+
         //monde exemple
         FILE *fichier;
         fichier = fopen("text.txt", "r");
@@ -240,20 +246,23 @@ int main(int argc, char **argv)
         }
         tab2 = init_tab_dynamic(NOMBRE_BLOCK_HAUTEUR,NOMBRE_BLOCK_LARGEUR,fichier);
 
-        // SDL_RenderClear(renderer);
+        /** Test déplacement**/
+
+        Collide(tab2, R_sprite_hero, &Right, &Left, &Up);
 
         /** Draw **/
-        SDL_RenderCopy(renderer,T_background,NULL, NULL);
-        //SDL_RenderCopy(renderer,sous,NULL, ss);
-        Afficher(R_tiple, T_tiple,tab2,NOMBRE_BLOCK_LARGEUR,NOMBRE_BLOCK_HAUTEUR, renderer);
-        SDL_RenderCopy(renderer,T_sprite_hero,NULL, R_sprite_hero);
 
+        SDL_RenderCopy(renderer,T_background,NULL, NULL);
+
+        Afficher(R_tiple, T_tiple,tab2,NOMBRE_BLOCK_LARGEUR,NOMBRE_BLOCK_HAUTEUR, renderer);
+
+        SDL_RenderCopy(renderer,T_sprite_hero,NULL, R_sprite_hero);
 
         ///////////////////////////text //////////////
 
         SDL_RenderPresent(renderer);
 
-        SDL_Delay(50);
+        SDL_Delay(20);
         }
     return 1;
     }

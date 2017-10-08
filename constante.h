@@ -10,14 +10,14 @@
 #define WINDOW_HEIGHT 500
 
 //hero
-#define SPRITE_HERO_WIDTH  15
-#define SPRITE_HERO_HEIGHT 15
+#define SPRITE_HERO_WIDTH  20
+#define SPRITE_HERO_HEIGHT 20
 #define HERO 0
 #define SPEED 10
 
 //tile
-#define LARGEUR_TILE 100
-#define HAUTEUR_TILE 100
+#define LARGEUR_TILE 50
+#define HAUTEUR_TILE 50
 
 // map
 #define NOMBRE_BLOCK_LARGEUR 10
