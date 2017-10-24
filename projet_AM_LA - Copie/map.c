@@ -1,13 +1,9 @@
-#include <SDL2/SDL.h>
-#include <stdbool.h>
-#include <math.h>
 
-#include "constante.h"
-#include "sprite_t.h"
-
+#include "map.h"
 
 
 /*########################FUNCTION##################*/
+
 char** initialisation_tableau( int x , int y  )
 {
   int i,j;
@@ -25,8 +21,7 @@ char** initialisation_tableau( int x , int y  )
 
 char ** init_tab_dynamic( int x, int y, FILE *fichier )
 {
-     char caracterActuel;
-    caracterActuel = NULL;
+     char caracterActuel = 0;
 
    int i,j;
    char ** tab = malloc( x*sizeof(char*) );
@@ -88,19 +83,19 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
              case '4':
                 block.x= * cpt;
                 block.y=100;
-                if (*tempsactuel - *tempsPrecedent > 1000 )
-                {
 
+
+
+                    *cpt = *cpt + 100;
                     block.x = *cpt  ;
 
-                    if (block.x > 600)
+                    if (block.x >500)
                     {
                         block.x = 0;
                         *cpt = 0 ;
                     }
-                    *tempsPrecedent = *tempsactuel ;
-                *   cpt = *cpt + 100;
-                }
+
+
 
                 break;
             default:

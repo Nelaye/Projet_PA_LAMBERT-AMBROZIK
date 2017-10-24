@@ -5,28 +5,35 @@
 #include <stdlib.h>
 #include <time.h>
 #include "constante.h"
-#include "sprite_t.h"*
+#include "sprite_t.h"
 #include "map.h"
+
 
 
 
 int main(int argc, char **argv)
 {
-    int Xmouse,Ymouse ;
-    int tempsActuel=0;
-    int tempsPrecedent = 0 ;
+
+    mouse m ;
+    vecteur vbullet;
+    double tempsActuel=0;
+    double tempsPrecedent = 0 ;
     int cpt = 0 ;
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     SDL_Event event;
     bool running = true;
-    SDL_Texture *T_sprite_hero, *temp, *T_background , *T_sous, *T_tiple,*T_cursor;
-    SDL_Rect *R_sprite_hero, *R_background , *R_sous, *R_tiple,*R_cursor ;
+    sprite_t *hero , *background , *tiple , *curseur ;
+    //SDL_Texture *T_sprite_hero, *temp, *T_background , *T_sous, *T_tiple,*T_cursor;
+    //SDL_Rect *R_sprite_hero, *R_background , *R_sous, *R_tiple,*R_cursor ;
+    SDL_Surface *temp ;
+    bullet b ;
     unsigned int i, j;
     char **monde1,**tab_power ;
     int power;
-     int scroll_Larg;
-        scroll_Larg = 0 ;
+    float scroll_Larg;
+    scroll_Larg = 0 ;
+
 
     window = SDL_CreateWindow("Project AMBROZIK LAMBERT", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 
@@ -34,72 +41,84 @@ int main(int argc, char **argv)
 
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
-    //charger power cursor
-    T_cursor = NULL;
-    temp = NULL ;
-    R_cursor  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = SDL_LoadBMP("picture/cursor.bmp");
-    T_cursor = SDL_CreateTextureFromSurface(renderer, temp);
+    //charger bullet
 
-    //charger background
-    T_background = NULL;
+    b.T_Bullet = NULL;
     temp = NULL;
-    R_background  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = SDL_LoadBMP("picture/1.bmp");
-    T_background = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(R_background, 1500,1000,0, 0);
+    b.R_Bullet = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    temp = SDL_LoadBMP("picture/bullet.bmp");
+    b.T_Bullet = SDL_CreateTextureFromSurface(renderer, temp);
+    b.x= 0 ;
+    b.y = 0 ;
+    //charger power cursor
+    curseur = (sprite_t*)malloc(sizeof(sprite_t));
+    curseur->T_sprite = NULL;
+    temp = NULL ;
+    curseur->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    temp = SDL_LoadBMP("picture/cursor.bmp");
+    curseur->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     //charger tiple
-    T_tiple = NULL;
+    tiple = (sprite_t*)malloc(sizeof(sprite_t));
+    tiple->T_sprite = NULL;
     temp = NULL;
-    R_tiple  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    tiple->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = SDL_LoadBMP("picture/block.bmp");
-    T_tiple = SDL_CreateTextureFromSurface(renderer, temp);
-    //charger(R_tiple, T_tiple,table,NOMBRE_BLOCK_LARGEUR,NOMBRE_BLOCK_HAUTEUR);
-    sprite_cons(R_tiple, WINDOW_WIDTH/NOMBRE_AFFICHER_LARGEUR,WINDOW_HEIGHT/NOMBRE_AFFICHER_HAUTEUR,0,0 );
-    SDL_RenderCopy(renderer,T_tiple,NULL, R_tiple);
+    tiple->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+
+    sprite_cons(tiple, WINDOW_WIDTH/NOMBRE_AFFICHER_LARGEUR,WINDOW_HEIGHT/NOMBRE_AFFICHER_HAUTEUR,0,0 );
+
+    SDL_RenderCopy(renderer,tiple->T_sprite,NULL, tiple->R_sprite);
 
     //charger gugusse
-    T_sprite_hero = NULL;
+    hero = (sprite_t*)malloc(sizeof(sprite_t));
+    hero->T_sprite= NULL;
     temp = NULL;
-    R_sprite_hero  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    hero->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = SDL_LoadBMP("picture/sprite.bmp");
-    T_sprite_hero = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(R_sprite_hero, 15,15,10,350);
+    hero->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    sprite_cons(hero, 15,15,10,350);
 
     SDL_ShowCursor(SDL_DISABLE);
 
 
     while (running)
         {
-        SDL_GetMouseState(&Xmouse,&Ymouse) ;
-        sprite_cons(R_cursor,CURSOR_WIDTH,CURSOR_HEIGHT,Xmouse-10,Ymouse-10);
+            tempsActuel = SDL_GetTicks();
+            if (tempsActuel -tempsPrecedent > 1000.0/120.0)
+            {
 
 
         while (SDL_PollEvent(&event))
             {
                 //mouvement
                 if (event.type == SDL_QUIT) running = false;
+                if (event.type == SDL_MOUSEMOTION)
+                {
+                    m.x = event.motion.x ;
+                    m.y = event.motion.y ;
+                    sprite_cons(curseur,CURSOR_WIDTH,CURSOR_HEIGHT,m.x-10,m.y-10);
+                }
                 if (event.type== SDL_KEYDOWN)
                 {
                     if (event.key.keysym.sym == SDLK_z)
                     {
-                        R_sprite_hero->y-=10;
+                        hero->R_sprite->y-=10;
                     }
                     if (event.key.keysym.sym == SDLK_d)
                     {
-                        if(R_sprite_hero->x > WINDOW_WIDTH/2 )
+                        if(hero->R_sprite->x > WINDOW_WIDTH/2 )
                         {
 
-                            R_sprite_hero->x  = WINDOW_WIDTH/2 ;
+                            hero->R_sprite->x  = WINDOW_WIDTH/2 ;
                             scroll_Larg+=1;
                         }
 
 
-                            R_sprite_hero->x+=10;
+                            hero->R_sprite->x+=10;
 
                     }
-                    if (event.key.keysym.sym == SDLK_q) R_sprite_hero->x-=10;
-                    if (event.key.keysym.sym == SDLK_s) R_sprite_hero->y+=10;
+                    if (event.key.keysym.sym == SDLK_q) hero->R_sprite->x-=10;
+                    if (event.key.keysym.sym == SDLK_s) hero->R_sprite->y+=10;
 
                 }
                 //power_glass
@@ -112,24 +131,33 @@ int main(int argc, char **argv)
                {
                    power = PISTOL ;
                }
+               if (event.key.keysym.sym == SDLK_3)
+               {
+                   b.x = hero->R_sprite->x ;
+                   b.y = hero->R_sprite->y ;
+                   vbullet = sbullet(hero->R_sprite,m.x,m.y );
+               }
+               if (event.key.keysym.sym == SDLK_4)
+               {
+               }
 
             }
-        R_sprite_hero->y++;
-        if(R_sprite_hero->x<0)
+        hero->R_sprite->y++;
+        if(hero->R_sprite->x<0)
         {
-            R_sprite_hero->x=0;
+            hero->R_sprite->x=0;
         }
-        if(R_sprite_hero->y+SPRITE_HERO_HEIGHT>WINDOW_HEIGHT)
+        if(hero->R_sprite->y+SPRITE_HERO_HEIGHT>WINDOW_HEIGHT)
         {
-            R_sprite_hero->y=WINDOW_HEIGHT-SPRITE_HERO_HEIGHT;
+            hero->R_sprite->y=WINDOW_HEIGHT-SPRITE_HERO_HEIGHT;
         }
-        if(R_sprite_hero->x+SPRITE_HERO_WIDTH>WINDOW_WIDTH)
+        if(hero->R_sprite->x+SPRITE_HERO_WIDTH>WINDOW_WIDTH)
         {
-            R_sprite_hero->x=WINDOW_WIDTH-SPRITE_HERO_WIDTH;
+            hero->R_sprite->x=WINDOW_WIDTH-SPRITE_HERO_WIDTH;
         }
-        if(R_sprite_hero->y<0)
+        if(hero->R_sprite->y<0)
         {
-            R_sprite_hero->y=0;
+            hero->R_sprite->y=0;
         }
 
         FILE *monde ;
@@ -143,21 +171,38 @@ int main(int argc, char **argv)
             return EXIT_FAILURE ;
         }
         monde1 = init_tab_dynamic(NOMBRE_BLOCK_HAUTEUR,NOMBRE_BLOCK_LARGEUR,monde);
-        // power
-        tab_power=initialisation_tableau(NOMBRE_BLOCK_LARGEUR_POWER,NOMBRE_BLOCK_HAUTEUR_POWER);
-        tempsActuel = SDL_GetTicks();
 
         fclose(monde) ;
+        // power
+        tab_power=initialisation_tableau(NOMBRE_BLOCK_LARGEUR_POWER,NOMBRE_BLOCK_HAUTEUR_POWER);
 
-        SDL_RenderCopy(renderer,T_background,NULL, NULL);
 
-        Afficher(R_tiple, T_tiple,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent, &cpt );
-        SDL_RenderCopy(renderer,T_sprite_hero,NULL, R_sprite_hero);
-        cursor(R_cursor, T_cursor,renderer,power );
+
+
+
+
+
+        //SDL_RenderCopy(renderer,T_background,NULL, NULL);
+
+        Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent, &cpt );
+        SDL_RenderCopy(renderer,hero->T_sprite,NULL, hero->R_sprite);
+        cursor(curseur , renderer,power );
+        //cursor(curseur->R_sprite,curseur->T_sprite ,renderer,power );
+         if(b.x != 0 && b.y != 0 )
+        {
+
+            update_bullet(&b, vbullet ,renderer);
+        }
         ///////////////////////////text //////////////
 
         SDL_RenderPresent(renderer);
+        tempsPrecedent = tempsActuel;
 
-        SDL_Delay(50);
+            }
+            else
+            {
+                SDL_Delay((1000.0/120.0)-(tempsActuel - tempsPrecedent) );
+            }
         }
 }
+
