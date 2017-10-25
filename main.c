@@ -24,17 +24,15 @@ char ** init_tab_dynamic( int x, int y, FILE *fichier )
     for ( i = 0; i<x; i++ )
     {
         tab[i] = malloc( y*sizeof(char) );
-        for ( j = 0; j<y; j++ )
+        caracterActuel = 48;
+        j = 0;
+        while (caracterActuel != '\n')
         {
-            if(caracterActuel != EOF)
+            caracterActuel = fgetc(fichier);
+            if (caracterActuel != '\n')
             {
-                caracterActuel = fgetc(fichier);
-                if(caracterActuel=='\n')
-                {
-                    caracterActuel = fgetc(fichier);
-                }
-            tab[i][j] =  caracterActuel ;
-
+                tab[i][j] =  caracterActuel ;
+                j = j +1;
             }
         }
    }
@@ -81,22 +79,24 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
 /************************************************************/
 int main(int argc, char **argv)
 {
-  SDL_Window *window = NULL;
-  SDL_Renderer *renderer = NULL;
+    SDL_Window *window = NULL;
+    SDL_Renderer *renderer = NULL;
 
-  SDL_Event event;
+    SDL_Event event;
 
-  bool running = true;
-  bool Right = true;
-  bool Left = true;
-  bool Up = true;
-  bool Saut= false;
+    bool running = true;
+    bool Right = true;
+    bool Left = true;
+    bool Up = true;
+    bool Saut= false;
 
-  int compt=0;
+    double grav=0.2;
+
 
     SDL_Texture *T_sprite_hero, *T_background, *T_tiple;
-    SDL_Rect *R_sprite_hero, *R_background, *R_tiple;
+    SDL_Rect *R_background, *R_tiple;
     SDL_Surface *temp;
+    perso *hero = malloc(sizeof(perso));
 
     char **tab2 ;
 
@@ -117,7 +117,7 @@ int main(int argc, char **argv)
     R_background  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = SDL_LoadBMP("picture/1.bmp");
     T_background = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(R_background, 1500,1000,0, 0);
+    Rect_cons(R_background, 1500,1000,0,0);
 
     //afficher tiple
     T_tiple = NULL;
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
     T_tiple = SDL_CreateTextureFromSurface(renderer, temp);
 
     //Afficher(R_tiple, T_tiple,table,NOMBRE_BLOCK_LARGEUR,NOMBRE_BLOCK_HAUTEUR);
-    sprite_cons(R_tiple, 50,50,0,0 );
+    Rect_cons(R_tiple, 50,50,0,0);
     SDL_Rect block;
     block.h=15;
     block.w=15;
@@ -139,116 +139,112 @@ int main(int argc, char **argv)
     //afficher gugusse
     T_sprite_hero = NULL;
     temp = NULL;
-    R_sprite_hero  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = SDL_LoadBMP("picture/sprite.bmp");
     T_sprite_hero = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(R_sprite_hero, 20,20,10,50);
+    sprite_cons(hero, 20,20,0,0,0,0);
 
 
+    //monde exemple
+    FILE *fichier;
+    fichier = fopen("text.txt", "r");
+
+    if (fichier==NULL)
+    {
+        printf("erreur fichier");
+        return EXIT_FAILURE ;
+    }
+
+    tab2 = init_tab_dynamic(NOMBRE_BLOCK_HAUTEUR,NOMBRE_BLOCK_LARGEUR,fichier);
 
 /********************************************************************************/
+bool key[SDL_NUM_SCANCODES] = {0};
+
+
     while (running)
         {
-
+            hero->pos.x=0;
         while (SDL_PollEvent(&event))
             {
-
-                if (event.type == SDL_QUIT) running = false;
-
-                if (event.type== SDL_KEYDOWN)
+                switch (event.type)
                 {
-                    if ((event.key.keysym.sym == SDLK_z) && (Up==true))
+                case SDL_QUIT:
                     {
-                        Saut=true;
+                        running=false;
+                        break;
                     }
-
-                    if (event.key.keysym.sym == SDLK_d)
+                case SDL_KEYDOWN:
                     {
-                         if ((event.key.keysym.sym == SDLK_z) && (event.key.keysym.sym == SDLK_d) )
-                        {
-
-                        }
-                        else
-                        {
-                            if (Right==true)
-                            {
-                                R_sprite_hero->x+=5;
-
-                            }
-
-                        }
-
+                        key[event.key.keysym.scancode] = true;
+                        break;
                     }
-                    if ((event.key.keysym.sym == SDLK_q) &&  (Left == true))
+                case SDL_KEYUP:
                     {
-                        R_sprite_hero->x-=5;
-
+                        key[event.key.keysym.scancode] = false;
+                        break;
                     }
-
-                    if (event.key.keysym.sym == SDLK_s)
-                    {
-
-
-                    }
-
-
-                    //X=R_sprite_hero->x/LARGEUR_TILE;
-                    //Y=R_sprite_hero->y/HAUTEUR_TILE;
-
-
-
-                }//end if keydown
-            }// end while pollenvent
-
-
-        /**DeplaceSprite(R_sprite_hero,);**/
-
-        if(R_sprite_hero->x<0)
-        {
-            R_sprite_hero->x=0;
-        }
-
-        if(R_sprite_hero->y+SPRITE_HERO_HEIGHT>WINDOW_HEIGHT)
-        {
-            R_sprite_hero->y=WINDOW_HEIGHT-SPRITE_HERO_HEIGHT;
-        }
-
-        if(R_sprite_hero->x+SPRITE_HERO_WIDTH>WINDOW_WIDTH)
-        {
-            R_sprite_hero->x=WINDOW_WIDTH-SPRITE_HERO_WIDTH;
-        }
-
-        if(R_sprite_hero->y<0)
-        {
-            R_sprite_hero->y=0;
-        }
-
-        if (Saut == true)
-        {
-            R_sprite_hero->y = R_sprite_hero->y - 10;
-            compt = compt + 1;
-
-            if (compt==10)
-            {
-                Saut=false;
-                compt=0;
+                }
             }
-        }
 
-        //monde exemple
-        FILE *fichier;
-        fichier = fopen("text.txt", "r");
-        tab2 = NULL;
-        if (fichier==NULL)
-        {
-            printf("erreur fichier");
-            return EXIT_FAILURE ;
-        }
-        tab2 = init_tab_dynamic(NOMBRE_BLOCK_HAUTEUR,NOMBRE_BLOCK_LARGEUR,fichier);
+            if (key[SDL_SCANCODE_W])
+            {
+                hero->pos.y = -4;
+            }
+            if (key[SDL_SCANCODE_A])
+            {
+                hero->pos.x=-5;
+            }
+             if (key[SDL_SCANCODE_D])
+            {
+                hero->pos.x=5;
+            }
+            if (key[SDL_SCANCODE_ESCAPE])
+            {
+                running = false;
+            }
+
+        // end while pollenvent
 
         /** Test déplacement**/
 
-        Collide(tab2, R_sprite_hero, &Right, &Left, &Up);
+
+        hero->position.x += hero->pos.x;
+        hero->position.y += hero->pos.y;
+
+        sprite_update(hero);
+
+        Collide(tab2, hero, &Right, &Left, &Up, &Saut);
+
+        if(hero->pos.y+grav<HAUTEUR_TILE)
+        {
+            hero->pos.y += grav;
+        }
+
+        /** Hyper espace **/
+
+        if(hero->position.x<0)
+        {
+            hero->position.x=0;
+        }
+
+        if(hero->position.y+SPRITE_HERO_HEIGHT>WINDOW_HEIGHT)
+        {
+            hero->position.y=WINDOW_HEIGHT-SPRITE_HERO_HEIGHT;
+        }
+
+        if(hero->position.x+SPRITE_HERO_WIDTH>WINDOW_WIDTH)
+        {
+            hero->position.x=WINDOW_WIDTH-SPRITE_HERO_WIDTH;
+        }
+
+        if(hero->position.y<0)
+        {
+            hero->position.y=0;
+            hero->pos.y=0;
+        }
+
+
+
+
 
         /** Draw **/
 
@@ -256,7 +252,7 @@ int main(int argc, char **argv)
 
         Afficher(R_tiple, T_tiple,tab2,NOMBRE_BLOCK_LARGEUR,NOMBRE_BLOCK_HAUTEUR, renderer);
 
-        SDL_RenderCopy(renderer,T_sprite_hero,NULL, R_sprite_hero);
+        SDL_RenderCopy(renderer,T_sprite_hero,NULL, &(hero->position));
 
         ///////////////////////////text //////////////
 
@@ -265,4 +261,4 @@ int main(int argc, char **argv)
         SDL_Delay(20);
         }
     return 1;
-    }
+        }
