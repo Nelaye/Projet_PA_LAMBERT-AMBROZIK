@@ -14,6 +14,7 @@ int main(int argc, char **argv)
 {
     int go = 0 ;
     mouse m ;
+    m.print = false ;
     vecteur vbullet;
     double tempsActuel=0;
     double tempsPrecedent = 0 ;
@@ -24,6 +25,7 @@ int main(int argc, char **argv)
     bool running = true;
     sprite_t  *background , *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2  ;
     character *hero;
+    SDL_Rect block1 ;
     SDL_Surface *temp ;
     bullet b ;
     unsigned int i, j;
@@ -136,19 +138,29 @@ int main(int argc, char **argv)
 
                                 hero->R_sprite->x+=10;
 
+                            block1 = right_movement(hero, m, block1);
+
                         }
-                        if (event.key.keysym.sym == SDLK_q) hero->R_sprite->x-=10;
+                        if (event.key.keysym.sym == SDLK_q)
+                        {
+                            hero->R_sprite->x-=10;
+
+                            block1 = left_movement(hero, m, block1);
+
+                        }
                         if (event.key.keysym.sym == SDLK_s) hero->R_sprite->y+=10;
 
                     }
                     //power_glass
                     if (event.key.keysym.sym == SDLK_1)
                     {
+                        m.print = true ;
                         power = POWER_GLASS ;
 
                     }
                     if (event.key.keysym.sym == SDLK_2)
                     {
+                        m.print = true ;
                         power = PISTOL ;
                     }
                     if (event.key.keysym.sym == SDLK_3 )
@@ -186,8 +198,7 @@ int main(int argc, char **argv)
                 hero->R_sprite->y=0;
             }
             //////////menu///////////////////
-
-        if(jeu == 0 )
+    if(jeu == 0 )
         {
 
             sprite_cons(menu, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
@@ -223,11 +234,14 @@ int main(int argc, char **argv)
                 }
 
         }
+        //////////////////////NIVEAU 1 //////////////////////////////////
         else if(jeu == 1)
             {
             //////initialisation joueur///////
             if (go == 0 )
             {
+
+                block1 = initialization_animation(HERO,0,0);
                 initialization(hero, HERO,SPRITE_HERO_WIDTH,SPRITE_HERO_HEIGHT,HERO_START_POS_X,HERO_START_POS_Y);
                 go = 1 ;
             }
@@ -254,8 +268,8 @@ int main(int argc, char **argv)
             Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent);
             afficher_power(glass,tab_power,renderer);
 
-
-            SDL_RenderCopy(renderer,hero->T_sprite,NULL, hero->R_sprite);
+            printf("%d\n ", block1.x);
+            SDL_RenderCopy(renderer,hero->T_sprite,&block1, hero->R_sprite);
             cursor(curseur , renderer,power );
             if(b.x != 0 && b.y != 0 )
             {

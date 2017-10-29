@@ -15,7 +15,7 @@
         sprite->R_sprite->y = y;
         sprite->R_sprite->h = height ;
         sprite->R_sprite->w = width ;
-
+        sprite->sprite_type = type ;
     switch (type)
     {
         case HERO :
@@ -98,6 +98,94 @@
             *cpt = 0 ;
         }
     }
+
+SDL_Rect initialization_animation(int sprite, int x , int y )
+{
+    SDL_Rect block ;
+    switch (sprite)
+    {
+    case HERO :
+        {
+           block.h = PICTURE_HERO_WIDTH ;
+           block.w = PICTURE_HERO_HEIGHT ;
+           block.x = x ;
+           block.y = y ;
+           break;
+        }
+    }
+return block ;
+}
+
+SDL_Rect  left_movement(character *sprite, mouse m, SDL_Rect block )
+{
+    int animation  ;
+    switch (sprite->sprite_type)
+        {
+        case HERO :
+            {
+                animation =  MAX_ANIMATION ;
+                switch (m.print)
+                {
+                    case false :
+                    {
+                        if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block.x )
+                        {
+                            block.x = 0 ;
+                            block.y =  0 ;
+                            return block;
+                        }
+                        else
+                        {
+                            block.x = block.x + PICTURE_HERO_WIDTH ;
+                            block.y =  0 ;
+                            return block;
+                        }
+                        break;
+                    }
+                }
+            }
+
+        }
+}
+
+SDL_Rect right_movement(character *sprite, mouse m, SDL_Rect block )
+{
+    int animation  ;
+    switch (sprite->sprite_type)
+        {
+        case HERO :
+            {
+                animation =  MAX_ANIMATION ;
+                switch (m.print)
+                {
+                    case false :
+                    {
+                        if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block.x )
+                        {
+                            block.x = 0 ;
+
+                            block.y =  PICTURE_HERO_HEIGHT ;
+                            return block;
+                        }
+                        else
+                        {
+                            block.x = block.x + PICTURE_HERO_WIDTH ;
+                            block.y =  PICTURE_HERO_HEIGHT ;
+                            return block;
+                        }
+                        break;
+                    }
+                }
+            }
+
+        }
+}
+
+
+
+
+
+
 
 
 

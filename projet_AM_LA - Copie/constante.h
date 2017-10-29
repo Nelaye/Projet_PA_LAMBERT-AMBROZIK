@@ -11,7 +11,10 @@
 #define SPRITE_HERO_WIDTH  30
 #define SPRITE_HERO_HEIGHT 30
 #define HERO_START_LIFE 1
-#define HERO 0
+#define PICTURE_HERO_WIDTH 100
+#define PICTURE_HERO_HEIGHT 100
+#define MAX_ANIMATION 2
+#define ANIMATION
 //bullet
 #define HAUTEUR_BULLET 16
 #define LARGEUR_BULLET 16
@@ -36,7 +39,7 @@
 #define HERO_START_POS_Y 350
 // mouvement
 enum mov{GAUCHE,DROITE,SAUT,ACCROUPIE};
-enum sprite_type{VIDE, BLOCK_GLASS};
+enum sprite_type{HERO};
 
 
 

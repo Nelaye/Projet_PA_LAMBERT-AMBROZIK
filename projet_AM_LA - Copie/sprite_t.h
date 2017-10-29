@@ -14,6 +14,7 @@ typedef struct Animation
 typedef struct Mouse
 {
     unsigned short int  x,y ;
+    bool print ;
 }mouse ;
 typedef struct Compteur
 {
@@ -50,9 +51,15 @@ typedef struct Character
     bool shield ;
     bool helmet ;
     int player ;
+    int sprite_type ;
 }character;
-		   /*################################ Function ###############################*/
+		    /*################################ Function ###############################*/
 
+        ///////////////////////////movement//////////////////////////////////
+        SDL_Rect  left_movement(character *sprite, mouse m, SDL_Rect block );
+        SDL_Rect right_movement(character *sprite, mouse m, SDL_Rect block );
+        /////////////////////////////////////////////////////////////////////
+        SDL_Rect initialization_animation(int sprite, int x , int y );
 		void initialization(character *sprite,int type , int width ,int height ,int x ,int y );
         void sprite_cons(sprite_t *sprite,int width ,int height ,int x ,int y );
 		//void sprite_cons(SDL_Rect* sprite, int width, int height, int x, int y);
