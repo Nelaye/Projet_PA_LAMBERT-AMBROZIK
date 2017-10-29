@@ -47,6 +47,7 @@
 			<Add directory="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="constante.h" />
+		<Unit filename="liste.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -54,6 +55,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="map.h" />
+		<Unit filename="niveau.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="niveau.h" />
 		<Unit filename="sprite_t.c">
 			<Option compilerVar="CC" />
 		</Unit>
