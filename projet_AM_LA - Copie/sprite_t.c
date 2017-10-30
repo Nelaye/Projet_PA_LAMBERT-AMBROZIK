@@ -86,33 +86,42 @@
         SDL_RenderCopy(renderer,b->T_Bullet,NULL, &destination );
     }
 
-    void animation_boucle(SDL_Rect *block, int y, int taille_sprite, int nombre_sprite, int *cpt)
+    void animation_boucle(SDL_Rect *block, int sens)
     {
-        block->x = *cpt * taille_sprite;
-        block->y = y;
-        *cpt = *cpt + 1  ;
-        block->x = *cpt * taille_sprite ;
-        if ( block->x > nombre_sprite -1 )
+        int animation = MAX_ANIMATION ;
+        if (sens == GAUCHE)
         {
-            block->x = 0 ;
-            *cpt = 0 ;
+            block->y = 500 ;
         }
+        else
+        {
+            block->y = 400 ;
+        }
+        if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block->x )
+                {
+                    block->x = 0 ;
+
+                    return block;
+                }
+                else
+                {
+                    block->x = block->x + PICTURE_HERO_WIDTH ;
+
+                    return block;
+                }
+
     }
 
-SDL_Rect initialization_animation(int sprite, int x , int y )
+SDL_Rect initialization_animation(int size_with,int size_height, int x , int y )
 {
     SDL_Rect block ;
-    switch (sprite)
-    {
-    case HERO :
-        {
-           block.h = PICTURE_HERO_WIDTH ;
-           block.w = PICTURE_HERO_HEIGHT ;
+
+           block.h = size_with ;
+           block.w = size_height ;
            block.x = x ;
            block.y = y ;
-           break;
-        }
-    }
+
+
 return block ;
 }
 
@@ -123,26 +132,31 @@ SDL_Rect  left_movement(character *sprite, mouse m, SDL_Rect block )
         {
         case HERO :
             {
+               if( sprite->R_sprite->x > m.x )
+               {
                 animation =  MAX_ANIMATION ;
-                switch (m.print)
+                block.y = 0 ;
+               }
+               else
+               {
+                animation =  MAX_ANIMATION ;
+                block.y = 200 ;
+               }
+                if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block.x )
                 {
-                    case false :
-                    {
-                        if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block.x )
-                        {
-                            block.x = 0 ;
-                            block.y =  0 ;
-                            return block;
-                        }
-                        else
-                        {
-                            block.x = block.x + PICTURE_HERO_WIDTH ;
-                            block.y =  0 ;
-                            return block;
-                        }
-                        break;
-                    }
+                    block.x = 0 ;
+
+                    return block;
                 }
+                else
+                {
+                    block.x = block.x + PICTURE_HERO_WIDTH ;
+
+                    return block;
+                }
+                break;
+
+
             }
 
         }
@@ -155,34 +169,46 @@ SDL_Rect right_movement(character *sprite, mouse m, SDL_Rect block )
         {
         case HERO :
             {
+               if( sprite->R_sprite->x <= m.x )
+               {
                 animation =  MAX_ANIMATION ;
-                switch (m.print)
+                block.y = 100 ;
+               }
+               else
+               {
+                animation =  MAX_ANIMATION ;
+                block.y = 300 ;
+               }
+                if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block.x )
                 {
-                    case false :
-                    {
-                        if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block.x )
-                        {
-                            block.x = 0 ;
+                    block.x = 0 ;
 
-                            block.y =  PICTURE_HERO_HEIGHT ;
-                            return block;
-                        }
-                        else
-                        {
-                            block.x = block.x + PICTURE_HERO_WIDTH ;
-                            block.y =  PICTURE_HERO_HEIGHT ;
-                            return block;
-                        }
-                        break;
-                    }
+                    return block;
                 }
+                else
+                {
+                    block.x = block.x + PICTURE_HERO_WIDTH ;
+
+                    return block;
+                }
+                break;
+
+
             }
 
         }
 }
 
 
-
+void aim_arm(sprite_t* arm , mouse c, SDL_Rect* block, int power )
+{
+	double vx = c.x - arm->R_sprite->x ;
+	double vy = c.y - arm->R_sprite->y ;
+	double angle  = atan2(-vy, vx);
+    int num =  ((int)(angle/M_PI*180/10)+18)%36;
+	block->x = num * 10 ;
+	block->y =power * 10 ;
+}
 
 
 

@@ -24,11 +24,13 @@
 //power_glass tab
 #define NOMBRE_BLOCK_LARGEUR_POWER 50
 #define NOMBRE_BLOCK_HAUTEUR_POWER 25
-
+//level
+#define PICTURE_LEVEL_WIDTH 100
+#define PICTURE_LEVEL_HEIGHT 100
 // map
 #define NOMBRE_BLOCK_LARGEUR 100
 #define NOMBRE_BLOCK_HAUTEUR 10
-//tilte
+//tile
 #define NOMBRE_AFFICHER_LARGEUR 10
 #define NOMBRE_AFFICHER_HAUTEUR 10
 //power
@@ -38,7 +40,7 @@
 #define HERO_START_POS_X 10
 #define HERO_START_POS_Y 350
 // mouvement
-enum mov{GAUCHE,DROITE,SAUT,ACCROUPIE};
+enum mov{GAUCHE,DROIT};
 enum sprite_type{HERO};
 
 

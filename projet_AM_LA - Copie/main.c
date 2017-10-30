@@ -12,6 +12,7 @@
 
 int main(int argc, char **argv)
 {
+    int touche_actif[5]={0,0,0,0,0};
     int go = 0 ;
     mouse m ;
     m.print = false ;
@@ -23,9 +24,9 @@ int main(int argc, char **argv)
     SDL_Renderer *renderer = NULL;
     SDL_Event event;
     bool running = true;
-    sprite_t  *background , *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2  ;
+    sprite_t  *background , *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras ;
     character *hero;
-    SDL_Rect block1 ;
+    SDL_Rect block1, b_bras ;
     SDL_Surface *temp ;
     bullet b ;
     unsigned int i, j;
@@ -61,6 +62,16 @@ int main(int argc, char **argv)
     temp = IMG_Load("picture/menu.xcf");
     menu->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     sprite_cons(menu, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
+    menu->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    //charger bras
+       bras = (sprite_t*)malloc(sizeof(sprite_t));
+    bras->T_sprite = NULL;
+    temp = NULL ;
+    bras->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    temp = IMG_Load("picture/bras.xcf");
+    bras->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    //b_level = initialization_animation(PICTURE_LEVEL_WIDTH,PICTURE_LEVEL_HEIGHT,0,0);
+    sprite_cons(bras,WINDOW_WIDTH,WINDOW_HEIGHT,0,0);
     //charger joueur1
     joueur1 = (sprite_t*)malloc(sizeof(sprite_t));
     joueur1->T_sprite = NULL;
@@ -96,10 +107,11 @@ int main(int argc, char **argv)
     //charger gugusse
     hero = (sprite_t*)malloc(sizeof(sprite_t));
     hero->T_sprite= NULL;
-    temp = NULL;
+
     hero->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = IMG_Load("picture/sprite.xcf");
-    hero->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    //touche
+
+
 
     int jeu = 0 ;
 
@@ -110,29 +122,36 @@ int main(int argc, char **argv)
             tempsActuel = SDL_GetTicks();
             if (tempsActuel -tempsPrecedent > 1000.0/120.0)
             {
+
                 while (SDL_PollEvent(&event))
                 {
                     //mouvement
                     if (event.type == SDL_QUIT) running = false;
+
                     if (event.type == SDL_MOUSEMOTION)
                     {
                         m.x = event.motion.x ;
                         m.y = event.motion.y ;
                         sprite_cons(curseur,CURSOR_WIDTH,CURSOR_HEIGHT,m.x,m.y);
+
                     }
+                    if (event.type)
                     if (event.type== SDL_KEYDOWN)
                     {
                         if (event.key.keysym.sym == SDLK_z)
                         {
                             hero->R_sprite->y-=10;
+                              touche_actif[0]=1;
                         }
                         if (event.key.keysym.sym == SDLK_d)
                         {
+                            touche_actif[1]=1;
                             if(hero->R_sprite->x > WINDOW_WIDTH/2 )
                             {
 
                                 hero->R_sprite->x  = WINDOW_WIDTH/2 ;
                                 scroll_Larg+=1;
+
                             }
 
 
@@ -143,12 +162,18 @@ int main(int argc, char **argv)
                         }
                         if (event.key.keysym.sym == SDLK_q)
                         {
+                               touche_actif[2]=1;
                             hero->R_sprite->x-=10;
 
                             block1 = left_movement(hero, m, block1);
 
                         }
                         if (event.key.keysym.sym == SDLK_s) hero->R_sprite->y+=10;
+                        if (event.key.keysym.sym == !SDLK_s)
+                        {
+                             touche_actif[3]=1;
+
+                        }
 
                     }
                     //power_glass
@@ -156,7 +181,6 @@ int main(int argc, char **argv)
                     {
                         m.print = true ;
                         power = POWER_GLASS ;
-
                     }
                     if (event.key.keysym.sym == SDLK_2)
                     {
@@ -179,7 +203,19 @@ int main(int argc, char **argv)
                     if (event.key.keysym.sym == SDLK_4)
                     {
                     }
+                    if(touche_actif[2]==0 && touche_actif[1]==0 )
+                {
+                    if (m.x > hero->R_sprite->x)
+                    {
+                        animation_boucle(&block1,GAUCHE);
+                    }
+                    else
+                    {
+                        animation_boucle(&block1,DROIT);
+                    }
                 }
+                }
+
             hero->R_sprite->y++;
             if(hero->R_sprite->x<0)
             {
@@ -198,6 +234,8 @@ int main(int argc, char **argv)
                 hero->R_sprite->y=0;
             }
             //////////menu///////////////////
+   touche_actif[1]=0;
+                 touche_actif[2]=0;
     if(jeu == 0 )
         {
 
@@ -214,12 +252,11 @@ int main(int argc, char **argv)
                 {
                     joueur2->R_sprite->y=joueur2->R_sprite->y-1 ;
                 }
+
                 if (joueur1->R_sprite->y==0)
                 {
                     hero->player = 1 ;
                     jeu  = 1 ;
-                    temp = NULL;
-                    hero->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
                     temp = IMG_Load("picture/joueur_1_animation.xcf");
                     hero->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
                 }
@@ -227,7 +264,7 @@ int main(int argc, char **argv)
                 {
                     hero->player = 2 ;
                     jeu  = 1 ;
-                    hero->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+                    temp = NULL;
                     temp = IMG_Load("picture/joueur_2_animation.xcf");
                     hero->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
 
@@ -235,16 +272,20 @@ int main(int argc, char **argv)
 
         }
         //////////////////////NIVEAU 1 //////////////////////////////////
+
         else if(jeu == 1)
             {
+
             //////initialisation joueur///////
             if (go == 0 )
             {
 
-                block1 = initialization_animation(HERO,0,0);
+                b_bras = initialization_animation(10,10,0,0);
+                block1 = initialization_animation(PICTURE_HERO_WIDTH,PICTURE_HERO_HEIGHT,0,4);
                 initialization(hero, HERO,SPRITE_HERO_WIDTH,SPRITE_HERO_HEIGHT,HERO_START_POS_X,HERO_START_POS_Y);
                 go = 1 ;
             }
+
             //////initialisation power///////
             if (tab_power == NULL)
             {
@@ -268,8 +309,13 @@ int main(int argc, char **argv)
             Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent);
             afficher_power(glass,tab_power,renderer);
 
-            printf("%d\n ", block1.x);
+            sprite_cons(bras,50,50,hero->R_sprite->x,hero->R_sprite->y-10);
+            aim_arm(bras,m,&b_bras,power);
             SDL_RenderCopy(renderer,hero->T_sprite,&block1, hero->R_sprite);
+
+            SDL_RenderCopy(renderer,bras->T_sprite,&b_bras, bras->R_sprite);
+
+
             cursor(curseur , renderer,power );
             if(b.x != 0 && b.y != 0 )
             {
