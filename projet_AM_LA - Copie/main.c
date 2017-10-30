@@ -14,6 +14,7 @@ int main(int argc, char **argv)
 {
     int touche_actif[5]={0,0,0,0,0};
     int go = 0 ;
+    int kaka = 0 ;
     mouse m ;
     m.print = false ;
     vecteur vbullet;
@@ -306,15 +307,13 @@ int main(int argc, char **argv)
                 fclose(monde);
             }
             //////////////////////PRINT/////////////
-            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent);
+           // Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent);
             afficher_power(glass,tab_power,renderer);
 
-            sprite_cons(bras,50,50,hero->R_sprite->x,hero->R_sprite->y-10);
+            sprite_cons(bras,50,50,hero->R_sprite->x-10,hero->R_sprite->y-10);
             aim_arm(bras,m,&b_bras,power);
             SDL_RenderCopy(renderer,hero->T_sprite,&block1, hero->R_sprite);
-
             SDL_RenderCopy(renderer,bras->T_sprite,&b_bras, bras->R_sprite);
-
 
             cursor(curseur , renderer,power );
             if(b.x != 0 && b.y != 0 )

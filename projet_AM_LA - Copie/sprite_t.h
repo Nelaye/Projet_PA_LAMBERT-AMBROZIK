@@ -70,5 +70,5 @@ typedef struct Character
         char ** init_tab_dynamic( int x, int y, FILE *fichier );
         vecteur sbullet(SDL_Rect *hero ,  int Xcursor , int Ycursor);
         void update_bullet(bullet *b,vecteur v,  SDL_Renderer *renderer);
-        void animation_boucle(SDL_Rect *block, int sens);
+    void animation_boucle(SDL_Rect *block, int sens);
 #endif // SPRITE_T_H_INCLUDED

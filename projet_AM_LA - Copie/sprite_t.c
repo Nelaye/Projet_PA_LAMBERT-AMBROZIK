@@ -88,28 +88,27 @@
 
     void animation_boucle(SDL_Rect *block, int sens)
     {
-        int animation = MAX_ANIMATION ;
-        if (sens == GAUCHE)
-        {
-            block->y = 500 ;
-        }
-        else
-        {
-            block->y = 400 ;
-        }
-        if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block->x )
-                {
-                    block->x = 0 ;
+            int animation = MAX_ANIMATION ;
+            if (sens == GAUCHE)
+            {
+                block->y = 500 ;
+            }
+            else
+            {
+                block->y = 400 ;
+            }
+            if ((animation-1)* (PICTURE_HERO_WIDTH ) <=  block->x )
+                    {
+                        block->x = 0 ;
 
-                    return block;
-                }
-                else
-                {
-                    block->x = block->x + PICTURE_HERO_WIDTH ;
+                        return block;
+                    }
+                    else
+                    {
+                        block->x = block->x + PICTURE_HERO_WIDTH ;
 
-                    return block;
-                }
-
+                        return block;
+                    }
     }
 
 SDL_Rect initialization_animation(int size_with,int size_height, int x , int y )
