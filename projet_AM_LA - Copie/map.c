@@ -75,7 +75,7 @@ void afficher_power(sprite_t *glass, char** tab , SDL_Renderer *renderer)
 		}
 	}
 }
-void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x, int* tempsactuel , int* tempsPrecedent )
+void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,timer t[],int *cpt  )
 {
     int largeur_map = WINDOW_WIDTH/nombre_blocs_largeur;
     int hauteur_map = WINDOW_HEIGHT/nombre_blocs_hauteur;
@@ -84,7 +84,6 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
     SDL_Rect block;
     block.h=HAUTEUR_TILE;
     block.w=LARGEUR_TILE;
-    block.y=0;
 
     affichage_hauteur = NOMBRE_BLOCK_HAUTEUR - NOMBRE_AFFICHER_HAUTEUR;
     for(i=0;i<nombre_blocs_largeur;i++)
@@ -108,10 +107,10 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
                 block.x = 300;
                 block.y=0;
                 break;
-             case '4':
-              //  animation_boucle(block,100, 100, 6, &tile3.nb )
-
-                break;
+            case '4':
+                block.y = 100;
+                block.x = block.x + (*cpt/(TILE_4_NOMBRE_ANIM_MILI_SECONDE/10)%TILE_4_NOMBRE_ANIM) * LARGEUR_TILE;
+            break;
             default:
                 break;
 			}
@@ -131,9 +130,6 @@ void  modifTabPower(mouse m ,char** tab)
     posY = (m.y+10) / (WINDOW_HEIGHT/NOMBRE_BLOCK_HAUTEUR_POWER) ;
     tab[posY][posX]='1';
 }
-
-
-
 
 
 

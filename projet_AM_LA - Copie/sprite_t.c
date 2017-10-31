@@ -9,6 +9,11 @@
 		/**
 			Create a special sprite from parameters
 		**/
+    void initialization_timer(timer *t)
+    {
+        t->actualTime=SDL_GetTicks();
+        t->previousTime=0 ;
+    }
     void initialization(character *sprite,int type , int width ,int height ,int x ,int y )
     {
         sprite->R_sprite->x= x;
@@ -86,8 +91,14 @@
         SDL_RenderCopy(renderer,b->T_Bullet,NULL, &destination );
     }
 
-    void animation_boucle(SDL_Rect *block, int sens)
+    void animation_boucle(SDL_Rect *block, int sens, timer *t, float seconde )
     {
+
+            if (t->actualTime-t->previousTime > seconde *1000)
+            {
+            t->previousTime = t->actualTime ;
+
+
             int animation = MAX_ANIMATION ;
             if (sens == GAUCHE)
             {
@@ -101,14 +112,16 @@
                     {
                         block->x = 0 ;
 
-                        return block;
+
                     }
                     else
                     {
                         block->x = block->x + PICTURE_HERO_WIDTH ;
 
-                        return block;
                     }
+
+
+            }
     }
 
 SDL_Rect initialization_animation(int size_with,int size_height, int x , int y )
@@ -208,10 +221,6 @@ void aim_arm(sprite_t* arm , mouse c, SDL_Rect* block, int power )
 	block->x = num * 10 ;
 	block->y =power * 10 ;
 }
-
-
-
-
 
 
 

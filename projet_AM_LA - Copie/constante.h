@@ -33,6 +33,9 @@
 //tile
 #define NOMBRE_AFFICHER_LARGEUR 10
 #define NOMBRE_AFFICHER_HAUTEUR 10
+// tile 4
+#define TILE_4_NOMBRE_ANIM 6
+#define TILE_4_NOMBRE_ANIM_MILI_SECONDE 500
 //power
 #define PISTOL 1
 #define POWER_GLASS 0

@@ -53,8 +53,14 @@ typedef struct Character
     int player ;
     int sprite_type ;
 }character;
+typedef struct Timer
+{
+    int actualTime;
+    int previousTime;
+}timer;
 		    /*################################ Function ###############################*/
 
+        void initialization_timer(timer *t);
         ///////////////////////////movement//////////////////////////////////
         SDL_Rect  left_movement(character *sprite, mouse m, SDL_Rect block );
         SDL_Rect right_movement(character *sprite, mouse m, SDL_Rect block );
@@ -70,5 +76,6 @@ typedef struct Character
         char ** init_tab_dynamic( int x, int y, FILE *fichier );
         vecteur sbullet(SDL_Rect *hero ,  int Xcursor , int Ycursor);
         void update_bullet(bullet *b,vecteur v,  SDL_Renderer *renderer);
-    void animation_boucle(SDL_Rect *block, int sens);
+
+    void animation_boucle(SDL_Rect *block, int sens,timer *t, float seconde );
 #endif // SPRITE_T_H_INCLUDED

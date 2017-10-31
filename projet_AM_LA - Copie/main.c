@@ -14,7 +14,13 @@ int main(int argc, char **argv)
 {
     int touche_actif[5]={0,0,0,0,0};
     int go = 0 ;
+    int cpt = 0 ;
+    timer t ,t_t4,t_t5,t_t6,t_t7,t_t8, cpt_t  ;
+    timer tab_tile[5]={t_t4,t_t5,t_t6,t_t7,t_t8};
 
+    cpt_t.previousTime = 0 ;
+    t.previousTime = 0 ;
+    tab_tile[0].previousTime=0 ;
     mouse m ;
     m.print = false ;
     vecteur vbullet;
@@ -118,8 +124,22 @@ int main(int argc, char **argv)
 
     while (running)
         {
-            tempsActuel = SDL_GetTicks();
-            if (tempsActuel -tempsPrecedent > 1000.0/120.0)
+        cpt_t.actualTime =  SDL_GetTicks();
+        ////////////////compteur ////////////
+
+        if (cpt_t.actualTime - cpt_t.previousTime > 1 )
+        {
+            cpt = cpt + 1 ;
+            cpt_t.previousTime = cpt_t.actualTime;
+        }
+        if (cpt> 10000)
+        {
+            cpt = 0 ;
+        }
+        tab_tile[0].actualTime=  SDL_GetTicks();
+        t.actualTime = SDL_GetTicks();
+        tempsActuel = SDL_GetTicks();
+        if (tempsActuel -tempsPrecedent > 1000.0/120.0)
             {
 
                 while (SDL_PollEvent(&event))
@@ -245,11 +265,11 @@ int main(int argc, char **argv)
                {
                     if (m.x > hero->R_sprite->x)
                     {
-                        animation_boucle(&block1,GAUCHE);
+                        animation_boucle(&block1,GAUCHE, &t, 0.50);
                     }
                     else
                     {
-                        animation_boucle(&block1,DROIT);
+                        animation_boucle(&block1,DROIT, &t, 0.50 );
                     }
                 }
             //////////menu///////////////////
@@ -325,7 +345,7 @@ int main(int argc, char **argv)
                 fclose(monde);
             }
             //////////////////////PRINT/////////////
-            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent);
+            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,tab_tile,&cpt);
             afficher_power(glass,tab_power,renderer);
 
             sprite_cons(bras,50,50,hero->R_sprite->x-10,hero->R_sprite->y-10);
