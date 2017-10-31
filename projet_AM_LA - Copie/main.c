@@ -14,23 +14,21 @@ int main(int argc, char **argv)
 {
     int touche_actif[5]={0,0,0,0,0};
     int go = 0 ;
-    int kaka = 0 ;
+
     mouse m ;
     m.print = false ;
     vecteur vbullet;
     double tempsActuel=0;
     double tempsPrecedent = 0 ;
-    int anim = 0 ;
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     SDL_Event event;
     bool running = true;
-    sprite_t  *background , *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras ;
+    sprite_t   *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras ;
     character *hero;
     SDL_Rect block1, b_bras ;
     SDL_Surface *temp ;
     bullet b ;
-    unsigned int i, j;
     char **monde1,**tab_power ;
     int power;
     float scroll_Larg;
@@ -106,7 +104,7 @@ int main(int argc, char **argv)
     glass->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     sprite_cons(glass,WINDOW_WIDTH/NOMBRE_BLOCK_LARGEUR_POWER ,WINDOW_HEIGHT/NOMBRE_BLOCK_HAUTEUR_POWER , 0, 0);
     //charger gugusse
-    hero = (sprite_t*)malloc(sizeof(sprite_t));
+    hero = (character*)malloc(sizeof(character));
     hero->T_sprite= NULL;
 
     hero->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
@@ -136,14 +134,34 @@ int main(int argc, char **argv)
                         sprite_cons(curseur,CURSOR_WIDTH,CURSOR_HEIGHT,m.x,m.y);
 
                     }
-                    if (event.type)
+                    if(event.type==SDL_KEYUP)
+                    {
+                         if (event.key.keysym.sym == SDLK_z)
+                         {
+                             touche_actif[0]=0 ;
+                         }
+                           if (event.key.keysym.sym == SDLK_d)
+                         {
+                             touche_actif[1]=0 ;
+                         }
+                           if (event.key.keysym.sym == SDLK_s)
+                         {
+                             touche_actif[2]=0 ;
+                         }
+                           if (event.key.keysym.sym == SDLK_q)
+                         {
+                             touche_actif[3]=0 ;
+                         }
+                    }
                     if (event.type== SDL_KEYDOWN)
                     {
+                        if (event.key.keysym.sym == SDLK_ESCAPE) running = false ;
                         if (event.key.keysym.sym == SDLK_z)
                         {
                             hero->R_sprite->y-=10;
                               touche_actif[0]=1;
                         }
+
                         if (event.key.keysym.sym == SDLK_d)
                         {
                             touche_actif[1]=1;
@@ -161,20 +179,20 @@ int main(int argc, char **argv)
                             block1 = right_movement(hero, m, block1);
 
                         }
+                        if (event.key.keysym.sym == SDLK_s)
+                        {
+                            hero->R_sprite->y+=10;
+                            touche_actif[2]=1;
+                        }
                         if (event.key.keysym.sym == SDLK_q)
                         {
-                               touche_actif[2]=1;
+                               touche_actif[3]=1;
                             hero->R_sprite->x-=10;
 
                             block1 = left_movement(hero, m, block1);
 
                         }
-                        if (event.key.keysym.sym == SDLK_s) hero->R_sprite->y+=10;
-                        if (event.key.keysym.sym == !SDLK_s)
-                        {
-                             touche_actif[3]=1;
 
-                        }
 
                     }
                     //power_glass
@@ -201,20 +219,8 @@ int main(int argc, char **argv)
                             modifTabPower(m ,tab_power);
                         }
                     }
-                    if (event.key.keysym.sym == SDLK_4)
-                    {
-                    }
-                    if(touche_actif[2]==0 && touche_actif[1]==0 )
-                {
-                    if (m.x > hero->R_sprite->x)
-                    {
-                        animation_boucle(&block1,GAUCHE);
-                    }
-                    else
-                    {
-                        animation_boucle(&block1,DROIT);
-                    }
-                }
+
+
                 }
 
             hero->R_sprite->y++;
@@ -234,9 +240,19 @@ int main(int argc, char **argv)
             {
                 hero->R_sprite->y=0;
             }
+
+            if(touche_actif[3]==0 && touche_actif[1]==0 )
+               {
+                    if (m.x > hero->R_sprite->x)
+                    {
+                        animation_boucle(&block1,GAUCHE);
+                    }
+                    else
+                    {
+                        animation_boucle(&block1,DROIT);
+                    }
+                }
             //////////menu///////////////////
-   touche_actif[1]=0;
-                 touche_actif[2]=0;
     if(jeu == 0 )
         {
 
@@ -277,6 +293,8 @@ int main(int argc, char **argv)
         else if(jeu == 1)
             {
 
+
+
             //////initialisation joueur///////
             if (go == 0 )
             {
@@ -307,7 +325,7 @@ int main(int argc, char **argv)
                 fclose(monde);
             }
             //////////////////////PRINT/////////////
-           // Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent);
+            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&tempsActuel, &tempsPrecedent);
             afficher_power(glass,tab_power,renderer);
 
             sprite_cons(bras,50,50,hero->R_sprite->x-10,hero->R_sprite->y-10);
@@ -321,7 +339,6 @@ int main(int argc, char **argv)
                 update_bullet(&b, vbullet ,renderer);
             }
         }
-
         ///////////////////////////text //////////////
         SDL_RenderPresent(renderer);
         tempsPrecedent = tempsActuel;
@@ -335,9 +352,9 @@ int main(int argc, char **argv)
 
         }
 
-        SDL_DestroyTexture(hero);
-        SDL_DestroyTexture(tiple);
-        SDL_DestroyTexture(curseur);
-        SDL_DestroyTexture(glass);
+        SDL_DestroyTexture(hero->T_sprite);
+        SDL_DestroyTexture(tiple->T_sprite);
+        SDL_DestroyTexture(curseur->T_sprite);
+        SDL_DestroyTexture(glass->T_sprite);
 }
 

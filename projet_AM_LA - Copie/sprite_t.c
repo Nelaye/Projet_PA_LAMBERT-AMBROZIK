@@ -161,7 +161,7 @@ SDL_Rect  left_movement(character *sprite, mouse m, SDL_Rect block )
         }
 }
 
-SDL_Rect right_movement(character *sprite, mouse m, SDL_Rect block )
+SDL_Rect right_movement(character *sprite, mouse m, SDL_Rect block  )
 {
     int animation  ;
     switch (sprite->sprite_type)
