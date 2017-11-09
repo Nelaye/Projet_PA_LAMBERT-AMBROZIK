@@ -37,12 +37,6 @@ typedef struct Point_2D
     double y;
 }P2D;
 
-typedef struct BLOCK_GLASS
-{
-    SDL_Rect position;
-    int type;
-}block;
-
 typedef struct AABB
 {
     P2D HG;
@@ -50,7 +44,7 @@ typedef struct AABB
     P2D BG;
     P2D BD;
     vect Size;
-    P2D middel;
+    P2D middle;
 
 }AABB;
 

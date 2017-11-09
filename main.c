@@ -85,6 +85,7 @@ int main(int argc, char **argv)
     SDL_Event event;
 
     bool running = true;
+    bool down = true;
     bool Right = true;
     bool Left = true;
     bool Up = true;
@@ -141,7 +142,7 @@ int main(int argc, char **argv)
     temp = NULL;
     temp = SDL_LoadBMP("picture/sprite.bmp");
     T_sprite_hero = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(hero, 20,20,0,0,0,0);
+    sprite_cons(hero, SPRITE_HERO_WIDTH,SPRITE_HERO_HEIGHT,50,50,0,0);
 
 
     //monde exemple
@@ -185,17 +186,23 @@ bool key[SDL_NUM_SCANCODES] = {0};
                 }
             }
 
-            if (key[SDL_SCANCODE_W])
+            if (key[SDL_SCANCODE_W] && (!Saut))//z
             {
                 hero->pos.y = -4;
+                Saut=true;
+                down=true;
             }
-            if (key[SDL_SCANCODE_A])
+            if (key[SDL_SCANCODE_A])//q
             {
                 hero->pos.x=-5;
             }
              if (key[SDL_SCANCODE_D])
             {
                 hero->pos.x=5;
+            }
+             if (key[SDL_SCANCODE_S])
+            {
+                hero->pos.y=5;
             }
             if (key[SDL_SCANCODE_ESCAPE])
             {
@@ -207,14 +214,14 @@ bool key[SDL_NUM_SCANCODES] = {0};
         /** Test déplacement**/
 
 
-        hero->position.x += hero->pos.x;
-        hero->position.y += hero->pos.y;
+        hero->point.middle.x += hero->pos.x;
+        hero->point.middle.y += hero->pos.y;
 
         sprite_update(hero);
 
-        Collide(tab2, hero, &Right, &Left, &Up, &Saut);
+        Collide(tab2, hero, &down ,&Saut, key);
 
-        if(hero->pos.y+grav<HAUTEUR_TILE)
+       if(down)
         {
             hero->pos.y += grav;
         }
@@ -229,6 +236,7 @@ bool key[SDL_NUM_SCANCODES] = {0};
         if(hero->position.y+SPRITE_HERO_HEIGHT>WINDOW_HEIGHT)
         {
             hero->position.y=WINDOW_HEIGHT-SPRITE_HERO_HEIGHT;
+            Saut=false;
         }
 
         if(hero->position.x+SPRITE_HERO_WIDTH>WINDOW_WIDTH)

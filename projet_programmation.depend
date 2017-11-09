@@ -7,7 +7,7 @@
 	"constante.h"
 	"event.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
 	"SDL_assert.h"
@@ -38,12 +38,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_main.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
 	"SDL_config.h"
 	<sys/types.h>
 	<stdio.h>
@@ -71,85 +71,85 @@
 	<stdlib.h>
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_config.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_config.h
 	"SDL_platform.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_platform.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_platform.h
 	"AvailabilityMacros.h"
 	"TargetConditionals.h"
 	<winapifamily.h>
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\begin_code.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\begin_code.h
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\close_code.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\close_code.h
 
-1341010380 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
+1341006780 c:\program files (x86)\codeblocks\mingw\include\sys\types.h
 	<_mingw.h>
 	<stddef.h>
 
-1341010370 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
+1341006770 c:\program files (x86)\codeblocks\mingw\include\_mingw.h
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\stdio.h
+1341006776 c:\program files (x86)\codeblocks\mingw\include\stdio.h
 	<_mingw.h>
 	<stddef.h>
 	<stdarg.h>
 	<sys/types.h>
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\stdlib.h
+1341006776 c:\program files (x86)\codeblocks\mingw\include\stdlib.h
 	<_mingw.h>
 	<stddef.h>
 
-1341010374 c:\program files (x86)\codeblocks\mingw\include\malloc.h
+1341006774 c:\program files (x86)\codeblocks\mingw\include\malloc.h
 	<_mingw.h>
 	<stdlib.h>
 
-1341010374 c:\program files (x86)\codeblocks\mingw\include\memory.h
+1341006774 c:\program files (x86)\codeblocks\mingw\include\memory.h
 	<string.h>
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\string.h
+1341006776 c:\program files (x86)\codeblocks\mingw\include\string.h
 	<_mingw.h>
 	<stddef.h>
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\strings.h
+1341006776 c:\program files (x86)\codeblocks\mingw\include\strings.h
 	<string.h>
 
-1341010372 c:\program files (x86)\codeblocks\mingw\include\inttypes.h
+1341006772 c:\program files (x86)\codeblocks\mingw\include\inttypes.h
 	<_mingw.h>
 	<stdint.h>
 	<stddef.h>
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\stdint.h
+1341006776 c:\program files (x86)\codeblocks\mingw\include\stdint.h
 	<stddef.h>
 
-1341010370 c:\program files (x86)\codeblocks\mingw\include\ctype.h
+1341006770 c:\program files (x86)\codeblocks\mingw\include\ctype.h
 	<_mingw.h>
 	<stddef.h>
 
-1341010374 c:\program files (x86)\codeblocks\mingw\include\math.h
+1341006774 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
-1341010372 c:\program files (x86)\codeblocks\mingw\include\float.h
+1341006772 c:\program files (x86)\codeblocks\mingw\include\float.h
 	<_mingw.h>
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_assert.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_assert.h
 	"SDL_config.h"
 	"begin_code.h"
 	<signal.h>
 	"close_code.h"
 
-1341010376 c:\program files (x86)\codeblocks\mingw\include\signal.h
+1341006776 c:\program files (x86)\codeblocks\mingw\include\signal.h
 	<_mingw.h>
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_atomic.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_atomic.h
 	"SDL_stdinc.h"
 	"SDL_platform.h"
 	"begin_code.h"
 	<mbarrier.h>
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_audio.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_audio.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_endian.h"
@@ -159,24 +159,24 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_error.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_error.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_endian.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_endian.h
 	"SDL_stdinc.h"
 	<endian.h>
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_mutex.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_mutex.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_thread.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_thread.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_atomic.h"
@@ -185,23 +185,23 @@
 	<process.h>
 	"close_code.h"
 
-1341010374 c:\program files (x86)\codeblocks\mingw\include\process.h
+1341006774 c:\program files (x86)\codeblocks\mingw\include\process.h
 	<_mingw.h>
 	<sys/types.h>
 	<stdint.h>
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_rwops.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_rwops.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
 	"SDL_stdinc.h"
 	<intrin.h>
 	<intrin.h>
@@ -213,7 +213,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_events.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_events.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -227,7 +227,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_video.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_video.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -235,13 +235,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_pixels.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_pixels.h
 	"SDL_stdinc.h"
 	"SDL_endian.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_rect.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_rect.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_pixels.h"
@@ -249,7 +249,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_surface.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_surface.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -258,11 +258,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_keycode.h"
@@ -270,27 +270,27 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_keycode.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_keycode.h
 	"SDL_stdinc.h"
 	"SDL_scancode.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_scancode.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_scancode.h
 	"SDL_stdinc.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_mouse.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_mouse.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_joystick.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_joystick.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_rwops.h"
@@ -298,11 +298,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_quit.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_gesture.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_gesture.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -310,60 +310,60 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_touch.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_touch.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_haptic.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_haptic.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_joystick.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_hints.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_hints.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_loadso.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_loadso.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_log.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_log.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
 	"SDL_stdinc.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_power.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_power.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_render.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_render.h
 	"SDL_stdinc.h"
 	"SDL_rect.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_system.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_system.h
 	"SDL_stdinc.h"
 	"SDL_keyboard.h"
 	"SDL_render.h"
@@ -371,13 +371,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_timer.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_timer.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1476939494 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_version.h
+1476935894 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_version.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
@@ -608,7 +608,7 @@
 	"constante.h"
 	"sprite_t.h"
 
-1508950230 source:c:\users\emili\desktop\projet_programmation\main.c
+1510237495 source:c:\users\emili\desktop\projet_programmation\main.c
 	<SDL2/SDL.h>
 	<stdbool.h>
 	<stdio.h>
@@ -618,7 +618,7 @@
 	"event.h"
 	"animation.h"
 
-1508945424 c:\users\emili\desktop\projet_programmation\constante.h
+1509006793 c:\users\emili\desktop\projet_programmation\constante.h
 
 1505678708 c:\users\emili\desktop\projet_programmation\sprite_t.c
 	<SDL2/SDL.h>
@@ -627,25 +627,59 @@
 	"constante.h"
 	"sprite_t.h"
 
-1508942880 c:\users\emili\desktop\projet_programmation\sprite_t.h
+1510237495 c:\users\emili\desktop\projet_programmation\sprite_t.h
 	<SDL2/SDL.h>
 	<stdbool.h>
 
-1505989930 c:\users\emili\desktop\projet_programmation\event.h
+1505986330 c:\users\emili\desktop\projet_programmation\event.h
 	<SDL/SDL.h>
 	<stdbool.h>
 	"sprite_t.h"
 
-1505428615 c:\users\emili\desktop\projet_programmation\animation.h
+1505425015 c:\users\emili\desktop\projet_programmation\animation.h
 
-1508949925 source:c:\users\emili\desktop\projet_programmation\sprite_t.c
+1510238019 source:c:\users\emili\desktop\projet_programmation\sprite_t.c
 	<SDL2/SDL.h>
 	<stdbool.h>
 	<math.h>
 	"constante.h"
 	"sprite_t.h"
 
-1505930449 source:c:\users\emili\desktop\projet_programmation\event.c
+1505926849 source:c:\users\emili\desktop\projet_programmation\event.c
 
-1505423820 source:c:\users\emili\desktop\projet_programmation\animation.c
+1505420220 source:c:\users\emili\desktop\projet_programmation\animation.c
+
+1505423820 source:c:\users\emili\documents\l2\projet_programmation\animation.c
+
+1505930449 source:c:\users\emili\documents\l2\projet_programmation\event.c
+
+1508953641 source:c:\users\emili\documents\l2\projet_programmation\main.c
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<stdio.h>
+	<stdlib.h>
+	"constante.h"
+	"sprite_t.h"
+	"event.h"
+	"animation.h"
+
+1508954611 c:\users\emili\documents\l2\projet_programmation\constante.h
+
+1508942880 c:\users\emili\documents\l2\projet_programmation\sprite_t.h
+	<SDL2/SDL.h>
+	<stdbool.h>
+
+1505989930 c:\users\emili\documents\l2\projet_programmation\event.h
+	<SDL/SDL.h>
+	<stdbool.h>
+	"sprite_t.h"
+
+1505428615 c:\users\emili\documents\l2\projet_programmation\animation.h
+
+1508954731 source:c:\users\emili\documents\l2\projet_programmation\sprite_t.c
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<math.h>
+	"constante.h"
+	"sprite_t.h"
 
