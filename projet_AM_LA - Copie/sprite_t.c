@@ -4,6 +4,7 @@
 
 #include "constante.h"
 #include "sprite_t.h"
+
    	/*################################ Function ###############################*/
 
 		/**
@@ -56,10 +57,14 @@
 
         switch (power)
         {
-        case 0:
+        case POWER_GLASS:
             block.x=0;
             break;
-        case 1:
+        case  PISTOL:
+            block.x = 40;
+
+            break;
+        case  SHOT_GUN:
             block.x = 40;
 
             break;
@@ -83,30 +88,8 @@
         return v ;
 
     }
-    void update_bullet(bullet *b, SDL_Renderer *renderer)
-    {
-        SDL_Rect destination ;
-        int i ;
-        for (i =0 ; i < NB_MAX_BULLETS ; i++)
-        {
-            if(b[i].print)
-            {
-                if(b[i].x > WINDOW_WIDTH || b[i].x + LARGEUR_BULLET< 0 || b[i].y > WINDOW_WIDTH || b[i].y+HAUTEUR_BULLET < 0 )
-                {
-                    b[i].print = false ;
-                }
-                b[i].x += b[i].v.x;
-                b[i].y += b[i].v.y;
-                destination.x = floor(b[i].x);
-                destination.y = floor(b[i].y);
-                destination.h = HAUTEUR_BULLET;
-                destination.w = LARGEUR_BULLET;
-                SDL_RenderCopy(renderer,b[i].T_Bullet,NULL, &destination );
 
-            }
-        }
 
-    }
 
     void animation_boucle(SDL_Rect *block, int sens, timer *t, float seconde )
     {

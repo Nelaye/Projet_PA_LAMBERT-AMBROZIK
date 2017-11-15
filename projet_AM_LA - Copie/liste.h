@@ -1,72 +1,60 @@
+
 #ifndef LISTE_H_INCLUDED
 #define LISTE_H_INCLUDED
-/*##################################################*/
-/* on utilise le cours d'AP2  pour faire les listes */
-/*##################################################*/
-#<include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
+#include "sprite_t.h"
 typedef struct Liste *liste ;
 struct Liste
 {
-  int premier ;
-  liste suivant ;
+bullet premier ;
+liste suivant ;
 } ;
-
 /* SIGNATURES DES OPERATIONS PRIMITIVES */
 liste l_vide () ;
-liste cons (int x, liste L) ;
+liste cons (bullet x, liste L) ;
 bool est_vide (liste L) ;
-int prem (liste L) ;
+bullet prem (liste L) ;
 liste reste (liste L) ;
-
 /* IMPLANTATION DES OPERATIONS PRIMITIVES */
 /* Constructeurs */
 liste l_vide ()
 {
-  return NULL ;
+return NULL ;
 }
-
-liste cons (int x, liste L)
+liste cons (bullet x, liste L)
 {
-  liste M ;
-  M = malloc (sizeof (*M)) ;
-  (*M).premier = x ;
-  (*M).suivant = L ;
-  return M ;
+liste M ;
+/* Réservation de la place mémoire nécessaire */
+M = malloc (sizeof (*M)) ;
+M->premier = x ;
+M->suivant = L ;
+return M ;
 }
-
 /* Accès */
 bool est_vide (liste L)
 {
-  return L == NULL ;
+return L == NULL ;
 }
-
-int prem (liste L)
+bullet prem (liste L)
 {
-  if (est_vide (L))
-    {
-      printf ("Calcul de prem sur liste vide !\n") ;
-      exit (0) ;
-    }
-  return (*L).premier ;
+if (est_vide (L))
+{
+printf ("Calcul de prem sur liste vide !\n") ;
+exit (0) ;
 }
-
+return L->premier ;
+}
 liste reste (liste L)
 {
-  return (*L).suivant ;
+return L->suivant ;
 }
-
-/* OPERATIONS NON PRIMITIVES */
-unsigned int longueurR (liste L)
+void ecrire_prem (bullet x, liste L)
 {
-  if (est_vide (L))
-    return 0 ;
-  return 1 + longueurR (reste (L)) ;
+  L->premier = x ;
 }
-
-unsigned int longueurI (liste L)
+int longueur(liste L)
 {
   unsigned int lg ;
   lg = 0 ;
@@ -77,19 +65,45 @@ unsigned int longueurI (liste L)
     }
   return lg ;
 }
-
-void afficher_liste (liste L)
+void liberer_liste(liste L)
 {
-  printf ("(") ;
-  while (!est_vide (L))
+  if (est_vide (L))
     {
-      printf ("%d%s",
-	      prem (L),
-	      (est_vide (reste(L)) ? "" : " ")) ;
-      L = reste (L) ;
+      return ;
     }
-  printf (")") ;
+  liberer_liste (reste (L)) ;
+  free(L) ;
 }
+
+liste update_bullet(liste b, SDL_Renderer *renderer)
+{
+    liste L , M ;
+    bullet premier_liste_L ;
+    bullet premier_liste_m ;
+    L = b;
+
+    SDL_Rect destination ;
+    if(est_vide(b))
+    {
+
+            return b;
+    }
+    premier_liste_L = prem(L);
+
+
+    premier_liste_L.x += premier_liste_L.v.x ;
+    premier_liste_L.y +=premier_liste_L.v.y ;
+    destination.x = floor(premier_liste_L.x);
+    destination.y = floor(premier_liste_L.y);
+    destination.h = HAUTEUR_BULLET;
+    destination.w = LARGEUR_BULLET;
+
+    SDL_RenderCopy(renderer,premier_liste_L.T_Bullet,NULL, &destination );
+
+    return cons(premier_liste_L,update_bullet(reste(b)  ,renderer ));
+    }
+
+
 
 
 #endif // LISTE_H_INCLUDED

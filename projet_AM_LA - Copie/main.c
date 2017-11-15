@@ -9,11 +9,20 @@
 #include "sprite_t.h"
 #include "map.h"
 #include <SDL2/SDL_image.h>
-
+#include "liste.h"
 
 int main(int argc, char **argv)
 {
+    int play_time =0 ;
+    int recharge  =  0 ;
+    int recharge_cpt = 0 ;
+    int bullet_shot_gun_cpt, bullet_pistol_cpt  ;
+    bullet_shot_gun_cpt = 0 ;
+    bullet_pistol_cpt = 0 ;
+    int x ;
+    liste liste_bullet_hero ;
     int touche_actif[5]={0,0,0,0,0};
+    int tir[3]={0,0,0};
     int go = 0 ;
     int i ;
     int cpt = 0 ;
@@ -30,33 +39,31 @@ int main(int argc, char **argv)
     SDL_Renderer *renderer = NULL;
     SDL_Event event;
     bool running = true;
-    sprite_t   *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras , *background;
+    sprite_t   *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras , *background, *bullet_hero_image;
     character *hero;
     SDL_Rect block1, b_bras ;
     SDL_Surface *temp ;
-    bullet b[NB_MAX_BULLETS] ;
+    bullet b ;
     char **monde1,**tab_power ;
     int power;
-
+    liste_bullet_hero= l_vide() ;
     float scroll_Larg;
     scroll_Larg = 0 ;
     tab_power = NULL;
     monde1 = NULL;
     window = SDL_CreateWindow("Project AMBROZIK LAMBERT", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
-
     renderer = SDL_CreateRenderer(window, -1, 0);
+
+
     //charger bullet
-    for(i=0; i < NB_MAX_BULLETS; i++)
-    {
-    b[i].T_Bullet = NULL;
-    temp = NULL;
-    b[i].R_Bullet = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+     bullet_hero_image = (sprite_t*)malloc(sizeof(sprite_t));
+    bullet_hero_image->T_sprite = NULL;
+    temp = NULL ;
+    bullet_hero_image->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = IMG_Load("picture/bullet.xcf");
-    b[i].T_Bullet = SDL_CreateTextureFromSurface(renderer, temp);
-    b[i].x= 0 ;
-    b[i].y = 0 ;
-    b[i].print = false ;
-    }
+    bullet_hero_image->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    sprite_cons(bullet_hero_image, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
+    bullet_hero_image->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     //charger background
      background = (sprite_t*)malloc(sizeof(sprite_t));
     background->T_sprite = NULL;
@@ -133,6 +140,7 @@ int main(int argc, char **argv)
 
     while (running)
         {
+        play_time = SDL_GetTicks() ;
         SDL_SetRenderDrawColor(renderer,100,100,100,10);
         t_glass.actualTime =   SDL_GetTicks();
         cpt_t.actualTime =  SDL_GetTicks();
@@ -181,6 +189,10 @@ int main(int argc, char **argv)
                            if (event.key.keysym.sym == SDLK_q)
                          {
                              touche_actif[3]=0 ;
+                         }
+                          if (event.key.keysym.sym == SDLK_3)
+                         {
+                             tir[0]=0 ;
                          }
                     }
                     if (event.type== SDL_KEYDOWN)
@@ -233,61 +245,80 @@ int main(int argc, char **argv)
                     }
                     if (event.key.keysym.sym == SDLK_2)
                     {
+                        bras->print = true ;
                         m.print = true ;
-                        power = PISTOL ;
+                        power = PISTOL;
+
                     }
-                    if (event.key.keysym.sym == SDLK_3 )
+
+                     if (event.key.keysym.sym == SDLK_3)
+                    {
+                        m.print = true ;
+
+                            power = SHOT_GUN;
+                    }
+
+
+
+                    if (event.key.keysym.sym == SDLK_m )
                     {
                         if ( power == PISTOL )
                         {
-                            for(i=0; i < NB_MAX_BULLETS ; i++)
-                            {
-                                if( !b[i].print )
-                                {
-                                    b[i].x = hero->R_sprite->x ;
-                                    b[i].y = hero->R_sprite->y ;
-                                    b[i].v = sbullet(hero->R_sprite,m.x,m.y );
-                                    b[i].print = true ;
-                                    break;
-                                }
+                            if ( bullet_pistol_cpt <= MAGAZINE_GUN ){
+                            b.R_Bullet = bullet_hero_image->R_sprite;
+                            b.T_Bullet = bullet_hero_image->T_sprite ;
+                            b.x = hero->R_sprite->x ;
+                            b.y = hero->R_sprite->y ;
+                            b.v =  sbullet(hero->R_sprite,m.x,m.y );
+                            b.print = true ;
+                            liste_bullet_hero = cons(b,liste_bullet_hero);
+
+                            bullet_pistol_cpt =bullet_pistol_cpt + 1;
                             }
-
+                            break;
                         }
+                        if (power == SHOT_GUN )
+                        {
+                            if ( bullet_shot_gun_cpt <= MAGAZINE_SHOT_GUN ){
+                            b.R_Bullet = bullet_hero_image->R_sprite;
+                            b.T_Bullet = bullet_hero_image->T_sprite ;
+                            b.x = hero->R_sprite->x ;
+                            b.y = hero->R_sprite->y ;
+                            b.v =  sbullet(hero->R_sprite,m.x,m.y );
+                            b.print = true ;
 
+                            liste_bullet_hero = cons(b,liste_bullet_hero);
+                            b.x = hero->R_sprite->x ;
+                            b.y = hero->R_sprite->y ;
+                            b.v =  sbullet(hero->R_sprite,m.x+30,m.y+30 );
+                            b.print = true ;
+                            liste_bullet_hero = cons(b,liste_bullet_hero);
+
+                            liste_bullet_hero = cons(b,liste_bullet_hero);
+                            b.x = hero->R_sprite->x ;
+                            b.y = hero->R_sprite->y ;
+                            b.v =  sbullet(hero->R_sprite,m.x-30,m.y-30 );
+                            b.print = true ;
+                            liste_bullet_hero = cons(b,liste_bullet_hero);
+                            bullet_shot_gun_cpt =bullet_shot_gun_cpt + 1;
+                            break;
+                            }
+                        }
                         if (power == POWER_GLASS )
                         {
                             modifTabPower(m ,tab_power);
                         }
                     }
 
-                     if (event.key.keysym.sym == SDLK_m )
-                    {
-                        if ( power == PISTOL )
-                        {
-                            for(i=0; i < NB_MAX_BULLETS ; i=i+3)
-                            {
-                                if( !b[i].print)
-                                {
-                                    b[i].x = hero->R_sprite->x ;
-                                    b[i].y = hero->R_sprite->y ;
-                                    b[i].v = sbullet(hero->R_sprite,m.x,m.y );
-                                    b[i].print = true ;
+                    if (event.key.keysym.sym == SDLK_r){
 
-                                     b[i+1].x = hero->R_sprite->x ;
-                                    b[i+1].y = hero->R_sprite->y ;
-                                    b[i+1].v = sbullet(hero->R_sprite,m.x+30,m.y+30 );
-                                    b[i+1].print = true ;
+                       recharge = 1 ;
+                       recharge_cpt =SDL_GetTicks()+ 3000;
+                        printf("-------------------------- %d ----------------------------------\n" , recharge_cpt);
 
-                                     b[i+2].x = hero->R_sprite->x ;
-                                    b[i+2].y = hero->R_sprite->y ;
-                                    b[i+2].v = sbullet(hero->R_sprite,m.x-30,m.y-30 );
-                                    b[i+2].print = true ;
-                                    break;
-                                }
-                            }
 
-                        }
                     }
+
                 }
 
             hero->R_sprite->y++;
@@ -307,6 +338,7 @@ int main(int argc, char **argv)
                 hero->R_sprite->y=0;
             }
 
+
             if(touche_actif[3]==0 && touche_actif[1]==0 )
                {
                     if (m.x > hero->R_sprite->x)
@@ -319,6 +351,25 @@ int main(int argc, char **argv)
                     }
                 }
             }
+              if(recharge == 1 )
+            {
+
+                bras->print = false ;
+                if (recharge_cpt < play_time){
+                    bras->print = true;
+                    recharge  = 0 ;
+                    printf("------------------------------------------------------\n");
+                    if(power == PISTOL){
+                        bullet_pistol_cpt = 0 ;
+                    }
+                    if (power==SHOT_GUN)
+                    {
+                        bullet_shot_gun_cpt = 0 ;
+                    }
+                }
+            }
+        //////////
+
             //////////menu///////////////////
     if(jeu == 0 )
         {
@@ -359,7 +410,7 @@ int main(int argc, char **argv)
 
         else if(jeu == 1)
             {
-
+                printf("%d\n ", play_time);
 
 
             //////initialisation joueur///////
@@ -396,22 +447,20 @@ int main(int argc, char **argv)
             SDL_RenderCopy(renderer,background->T_sprite,NULL,background->R_sprite);
             Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&cpt);
             afficher_power(glass,tab_power,renderer);
-
             cursor(curseur , renderer,power );
             sprite_cons(bras,50,50,hero->R_sprite->x-10,hero->R_sprite->y-10);
             aim_arm(bras,m,&b_bras,power);
-            if(hero->print)
-            {
+
+
             SDL_RenderCopy(renderer,hero->T_sprite,&block1, hero->R_sprite);
-            }
+
+        if(bras->print==true ){
             SDL_RenderCopy(renderer,bras->T_sprite,&b_bras, bras->R_sprite);
-
-
-
-            update_bullet(&b,renderer);
-
         }
-        ///////////////////////////text //////////////
+           liste_bullet_hero = update_bullet(liste_bullet_hero,renderer);
+        }
+
+      /////////////////text //////////////
         SDL_RenderPresent(renderer);
         tempsPrecedent = tempsActuel;
 
@@ -421,7 +470,6 @@ int main(int argc, char **argv)
                 SDL_Delay((1000.0/120.0)-(tempsActuel - tempsPrecedent) );
             }
           SDL_RenderClear(renderer);
-
         }
 
         SDL_DestroyTexture(hero->T_sprite);

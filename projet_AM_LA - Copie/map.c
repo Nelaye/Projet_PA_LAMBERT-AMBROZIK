@@ -80,12 +80,11 @@ void afficher_power(sprite_t *glass, char** tab , SDL_Renderer *renderer )
 		}
 	}
 }
-void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,int *cpt  )
+void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, float scrolling_x,int *cpt  )
 {
     int largeur_map = WINDOW_WIDTH/nombre_blocs_largeur;
     int hauteur_map = WINDOW_HEIGHT/nombre_blocs_hauteur;
     int i,j, affichage_hauteur ;
-    //SDL_RenderClear(renderer);
     SDL_Rect block;
     block.h=HAUTEUR_TILE;
     block.w=LARGEUR_TILE;
@@ -95,7 +94,7 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
 	{
 		for(j=0;j<nombre_blocs_hauteur;j++)
 		{
-			switch (table[j+affichage_hauteur][i+scrolling_x]) {
+			switch (table[j+affichage_hauteur][i+1]) {
             case '0':
                 block.x = 0;
                 block.y=0;
@@ -125,7 +124,6 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
 		}
 
 	}
-    SDL_RenderPresent(renderer);
 }
 
 void  modifTabPower(mouse m ,char** tab)

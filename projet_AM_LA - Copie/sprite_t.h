@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
     /*############################# Abstract Type #############################*/
 typedef struct Animation
 {
@@ -24,6 +23,7 @@ typedef struct Sprite_t
 {
     SDL_Texture *T_sprite ;
     SDL_Rect *R_sprite ;
+    bool print ;
 }sprite_t;
 
 
@@ -62,7 +62,6 @@ typedef struct Bullet
     SDL_Rect *R_Bullet ;
     SDL_Texture *T_Bullet ;
 }bullet;
-
 		    /*################################ Function ###############################*/
 
         void initialization_timer(timer *t);
@@ -83,7 +82,7 @@ SDL_Rect  right_movement(character *sprite, mouse m,timer *t,  SDL_Rect block, f
         char ** init_tab_dynamic( int x, int y, FILE *fichier );
         vecteur sbullet(SDL_Rect *hero ,  int Xcursor , int Ycursor);
 
-        void update_bullet(bullet *b,SDL_Renderer *renderer);
+//         void update_bullet(liste b, SDL_Renderer *renderer);
 
     void animation_boucle(SDL_Rect *block, int sens,timer *t, float seconde );
 #endif // SPRITE_T_H_INCLUDED
