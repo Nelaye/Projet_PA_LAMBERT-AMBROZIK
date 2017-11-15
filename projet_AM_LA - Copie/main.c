@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "constante.h"
 #include "sprite_t.h"
 #include "map.h"
@@ -14,13 +15,12 @@ int main(int argc, char **argv)
 {
     int touche_actif[5]={0,0,0,0,0};
     int go = 0 ;
+    int i ;
     int cpt = 0 ;
-    timer t ,t_t4,t_t5,t_t6,t_t7,t_t8, cpt_t  ;
-    timer tab_tile[5]={t_t4,t_t5,t_t6,t_t7,t_t8};
-
+    timer t ,t_glass, cpt_t   ;
+    t_glass.previousTime=0;
     cpt_t.previousTime = 0 ;
     t.previousTime = 0 ;
-    tab_tile[0].previousTime=0 ;
     mouse m ;
     m.print = false ;
     vecteur vbullet;
@@ -30,13 +30,14 @@ int main(int argc, char **argv)
     SDL_Renderer *renderer = NULL;
     SDL_Event event;
     bool running = true;
-    sprite_t   *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras ;
+    sprite_t   *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras , *background;
     character *hero;
     SDL_Rect block1, b_bras ;
     SDL_Surface *temp ;
-    bullet b ;
+    bullet b[NB_MAX_BULLETS] ;
     char **monde1,**tab_power ;
     int power;
+
     float scroll_Larg;
     scroll_Larg = 0 ;
     tab_power = NULL;
@@ -45,22 +46,35 @@ int main(int argc, char **argv)
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     //charger bullet
-    b.T_Bullet = NULL;
+    for(i=0; i < NB_MAX_BULLETS; i++)
+    {
+    b[i].T_Bullet = NULL;
     temp = NULL;
-    b.R_Bullet = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = IMG_Load("picture/bullet.bmp");
-    b.T_Bullet = SDL_CreateTextureFromSurface(renderer, temp);
-    b.x= 0 ;
-    b.y = 0 ;
+    b[i].R_Bullet = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    temp = IMG_Load("picture/bullet.xcf");
+    b[i].T_Bullet = SDL_CreateTextureFromSurface(renderer, temp);
+    b[i].x= 0 ;
+    b[i].y = 0 ;
+    b[i].print = false ;
+    }
+    //charger background
+     background = (sprite_t*)malloc(sizeof(sprite_t));
+    background->T_sprite = NULL;
+    temp = NULL ;
+    background->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    temp = IMG_Load("picture/background.jpg");
+    background->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    sprite_cons(background, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
+    background->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     //charger power/pistol cursor
     curseur = (sprite_t*)malloc(sizeof(sprite_t));
     curseur->T_sprite = NULL;
     temp = NULL ;
     curseur->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = IMG_Load("picture/cursor.bmp");
+    temp = IMG_Load("picture/cursor.xcf");
     curseur->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     //charger menu
-       menu = (sprite_t*)malloc(sizeof(sprite_t));
+    menu = (sprite_t*)malloc(sizeof(sprite_t));
     menu->T_sprite = NULL;
     temp = NULL ;
     menu->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
@@ -75,7 +89,6 @@ int main(int argc, char **argv)
     bras->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = IMG_Load("picture/bras.xcf");
     bras->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
-    //b_level = initialization_animation(PICTURE_LEVEL_WIDTH,PICTURE_LEVEL_HEIGHT,0,0);
     sprite_cons(bras,WINDOW_WIDTH,WINDOW_HEIGHT,0,0);
     //charger joueur1
     joueur1 = (sprite_t*)malloc(sizeof(sprite_t));
@@ -98,7 +111,7 @@ int main(int argc, char **argv)
     tiple->T_sprite = NULL;
     temp = NULL;
     tiple->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = IMG_Load("picture/block.xcf");
+    temp = IMG_Load("picture/block.png");
     tiple->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     sprite_cons(tiple, WINDOW_WIDTH/NOMBRE_AFFICHER_LARGEUR,WINDOW_HEIGHT/NOMBRE_AFFICHER_HAUTEUR,0,0 );
     //charger glass
@@ -116,14 +129,12 @@ int main(int argc, char **argv)
     hero->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     //touche
 
-
-
     int jeu = 0 ;
-
-
 
     while (running)
         {
+        SDL_SetRenderDrawColor(renderer,100,100,100,10);
+        t_glass.actualTime =   SDL_GetTicks();
         cpt_t.actualTime =  SDL_GetTicks();
         ////////////////compteur ////////////
 
@@ -136,9 +147,9 @@ int main(int argc, char **argv)
         {
             cpt = 0 ;
         }
-        tab_tile[0].actualTime=  SDL_GetTicks();
         t.actualTime = SDL_GetTicks();
         tempsActuel = SDL_GetTicks();
+
         if (tempsActuel -tempsPrecedent > 1000.0/120.0)
             {
 
@@ -146,7 +157,6 @@ int main(int argc, char **argv)
                 {
                     //mouvement
                     if (event.type == SDL_QUIT) running = false;
-
                     if (event.type == SDL_MOUSEMOTION)
                     {
                         m.x = event.motion.x ;
@@ -196,7 +206,7 @@ int main(int argc, char **argv)
 
                                 hero->R_sprite->x+=10;
 
-                            block1 = right_movement(hero, m, block1);
+                                block1 = right_movement(hero, m,&t, block1,0.2);
 
                         }
                         if (event.key.keysym.sym == SDLK_s)
@@ -209,7 +219,7 @@ int main(int argc, char **argv)
                                touche_actif[3]=1;
                             hero->R_sprite->x-=10;
 
-                            block1 = left_movement(hero, m, block1);
+                            block1 = left_movement(hero, m,&t, block1, 0.2 );
 
                         }
 
@@ -230,17 +240,54 @@ int main(int argc, char **argv)
                     {
                         if ( power == PISTOL )
                         {
-                            b.x = hero->R_sprite->x ;
-                            b.y = hero->R_sprite->y ;
-                            vbullet = sbullet(hero->R_sprite,m.x,m.y );
+                            for(i=0; i < NB_MAX_BULLETS ; i++)
+                            {
+                                if( !b[i].print )
+                                {
+                                    b[i].x = hero->R_sprite->x ;
+                                    b[i].y = hero->R_sprite->y ;
+                                    b[i].v = sbullet(hero->R_sprite,m.x,m.y );
+                                    b[i].print = true ;
+                                    break;
+                                }
+                            }
+
                         }
+
                         if (power == POWER_GLASS )
                         {
                             modifTabPower(m ,tab_power);
                         }
                     }
 
+                     if (event.key.keysym.sym == SDLK_m )
+                    {
+                        if ( power == PISTOL )
+                        {
+                            for(i=0; i < NB_MAX_BULLETS ; i=i+3)
+                            {
+                                if( !b[i].print)
+                                {
+                                    b[i].x = hero->R_sprite->x ;
+                                    b[i].y = hero->R_sprite->y ;
+                                    b[i].v = sbullet(hero->R_sprite,m.x,m.y );
+                                    b[i].print = true ;
 
+                                     b[i+1].x = hero->R_sprite->x ;
+                                    b[i+1].y = hero->R_sprite->y ;
+                                    b[i+1].v = sbullet(hero->R_sprite,m.x+30,m.y+30 );
+                                    b[i+1].print = true ;
+
+                                     b[i+2].x = hero->R_sprite->x ;
+                                    b[i+2].y = hero->R_sprite->y ;
+                                    b[i+2].v = sbullet(hero->R_sprite,m.x-30,m.y-30 );
+                                    b[i+2].print = true ;
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
                 }
 
             hero->R_sprite->y++;
@@ -251,7 +298,6 @@ int main(int argc, char **argv)
             if(hero->R_sprite->y+SPRITE_HERO_HEIGHT>WINDOW_HEIGHT)
             {
                 hero->R_sprite->y=WINDOW_HEIGHT-SPRITE_HERO_HEIGHT;
-            }
             if(hero->R_sprite->x+SPRITE_HERO_WIDTH>WINDOW_WIDTH)
             {
                 hero->R_sprite->x=WINDOW_WIDTH-SPRITE_HERO_WIDTH;
@@ -272,6 +318,7 @@ int main(int argc, char **argv)
                         animation_boucle(&block1,DROIT, &t, 0.50 );
                     }
                 }
+            }
             //////////menu///////////////////
     if(jeu == 0 )
         {
@@ -345,19 +392,24 @@ int main(int argc, char **argv)
                 fclose(monde);
             }
             //////////////////////PRINT/////////////
-            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,tab_tile,&cpt);
+
+            SDL_RenderCopy(renderer,background->T_sprite,NULL,background->R_sprite);
+            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&cpt);
             afficher_power(glass,tab_power,renderer);
 
+            cursor(curseur , renderer,power );
             sprite_cons(bras,50,50,hero->R_sprite->x-10,hero->R_sprite->y-10);
             aim_arm(bras,m,&b_bras,power);
+            if(hero->print)
+            {
             SDL_RenderCopy(renderer,hero->T_sprite,&block1, hero->R_sprite);
+            }
             SDL_RenderCopy(renderer,bras->T_sprite,&b_bras, bras->R_sprite);
 
-            cursor(curseur , renderer,power );
-            if(b.x != 0 && b.y != 0 )
-            {
-                update_bullet(&b, vbullet ,renderer);
-            }
+
+
+            update_bullet(&b,renderer);
+
         }
         ///////////////////////////text //////////////
         SDL_RenderPresent(renderer);

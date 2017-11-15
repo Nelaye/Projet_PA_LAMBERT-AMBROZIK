@@ -37,13 +37,16 @@
 #define TILE_4_NOMBRE_ANIM 6
 #define TILE_4_NOMBRE_ANIM_MILI_SECONDE 500
 //power
-#define PISTOL 1
 #define POWER_GLASS 0
+#define PISTOL 1
+#define SHOT_GUN 2
 //niveau 1 //
 #define HERO_START_POS_X 10
 #define HERO_START_POS_Y 350
+//pistol
+#define NB_MAX_BULLETS 100
 // mouvement
-enum mov{GAUCHE,DROIT};
+enum mov{GAUCHE,DROIT,TOMBE};
 enum sprite_type{HERO};
 
 

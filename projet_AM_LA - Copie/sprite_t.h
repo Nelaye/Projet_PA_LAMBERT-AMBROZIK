@@ -26,14 +26,7 @@ typedef struct Sprite_t
     SDL_Rect *R_sprite ;
 }sprite_t;
 
-typedef struct Bullet
-{
-    float x,y ;
-    float DirX,DirY ;
-    int v ;
-    SDL_Rect *R_Bullet ;
-    SDL_Texture *T_Bullet ;
-}bullet;
+
 typedef struct Vecteur
 {
     float x ;
@@ -58,12 +51,26 @@ typedef struct Timer
     int actualTime;
     int previousTime;
 }timer;
+
+typedef struct Bullet
+{
+    float x,y ;
+    float DirX,DirY ;
+    int vitesse ;
+    vecteur v ;
+    bool print ;
+    SDL_Rect *R_Bullet ;
+    SDL_Texture *T_Bullet ;
+}bullet;
+
 		    /*################################ Function ###############################*/
 
         void initialization_timer(timer *t);
         ///////////////////////////movement//////////////////////////////////
-        SDL_Rect  left_movement(character *sprite, mouse m, SDL_Rect block );
-        SDL_Rect right_movement(character *sprite, mouse m, SDL_Rect block );
+
+        SDL_Rect  left_movement(character *sprite, mouse m,timer *t, SDL_Rect block, float seconde);
+
+SDL_Rect  right_movement(character *sprite, mouse m,timer *t,  SDL_Rect block, float seconde);
 
         void aim_arm(sprite_t* arm , mouse c, SDL_Rect* block, int power );
         /////////////////////////////////////////////////////////////////////
@@ -75,7 +82,8 @@ typedef struct Timer
         void cursor(sprite_t *curseur , SDL_Renderer *renderer, int power );
         char ** init_tab_dynamic( int x, int y, FILE *fichier );
         vecteur sbullet(SDL_Rect *hero ,  int Xcursor , int Ycursor);
-        void update_bullet(bullet *b,vecteur v,  SDL_Renderer *renderer);
+
+        void update_bullet(bullet *b,SDL_Renderer *renderer);
 
     void animation_boucle(SDL_Rect *block, int sens,timer *t, float seconde );
 #endif // SPRITE_T_H_INCLUDED

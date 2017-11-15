@@ -46,24 +46,29 @@ char ** init_tab_dynamic( int x, int y, FILE *fichier )
    }
    return tab;
 }
-void afficher_power(sprite_t *glass, char** tab , SDL_Renderer *renderer)
+void afficher_power(sprite_t *glass, char** tab , SDL_Renderer *renderer )
 {
-    int  i , j  ;
+
+    timer a ;
+    a.actualTime = 0;
+
+    int  i , j, cpt   ;
     SDL_Rect block;
-    block.h = 20;
-    block.w = 20;
+    block.h = 100;
+    block.w = 100;
     for(i=0;i<NOMBRE_BLOCK_LARGEUR_POWER;i++)
 	{
 		for(j=0;j<NOMBRE_BLOCK_HAUTEUR_POWER;j++)
 		{
 		    switch (tab[j][i]) {
-            case '0':
-              block.x = 0;
-              block.y=0;
-            break;
             case '1':
-              block.x = 20;
+              block.x = 100;
               block.y=0;
+
+            break;
+            case '0':
+            block.x = 200;
+            block.y=0;
             break;
             default:
                 break;
@@ -75,12 +80,12 @@ void afficher_power(sprite_t *glass, char** tab , SDL_Renderer *renderer)
 		}
 	}
 }
-void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,timer t[],int *cpt  )
+void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,int *cpt  )
 {
     int largeur_map = WINDOW_WIDTH/nombre_blocs_largeur;
     int hauteur_map = WINDOW_HEIGHT/nombre_blocs_hauteur;
     int i,j, affichage_hauteur ;
-    SDL_RenderClear(renderer);
+    //SDL_RenderClear(renderer);
     SDL_Rect block;
     block.h=HAUTEUR_TILE;
     block.w=LARGEUR_TILE;
@@ -120,7 +125,7 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
 		}
 
 	}
-	SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer);
 }
 
 void  modifTabPower(mouse m ,char** tab)
@@ -130,9 +135,22 @@ void  modifTabPower(mouse m ,char** tab)
     posY = (m.y+10) / (WINDOW_HEIGHT/NOMBRE_BLOCK_HAUTEUR_POWER) ;
     tab[posY][posX]='1';
 }
-
-
-
+/*int  compteur_tab_power( char** tab, char valeur_a_chercher)
+{
+    int i , j , *cpt ;
+    for(i=0;i<NOMBRE_BLOCK_LARGEUR_POWER;i++)
+	{
+        for(j=0;j<NOMBRE_BLOCK_HAUTEUR_POWER;j++)
+		{
+		    if (tab[j][i]=valeur_a_chercher)
+            {
+                cpt = cpt + 1;
+            }
+		}
+	}
+    return cpt;
+}
+*/
 
 
 
