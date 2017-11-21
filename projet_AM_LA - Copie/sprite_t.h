@@ -5,10 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
     /*############################# Abstract Type #############################*/
-typedef struct Animation
-{
-    int nb ;
-}animation ;
+
 
 typedef struct Mouse
 {
@@ -32,7 +29,20 @@ typedef struct Vecteur
     float x ;
     float y ;
 }vecteur ;
-
+typedef struct Point_2d
+{
+    float x ;
+    float y ;
+}P2D ;
+typedef struct AABB
+{
+    P2D HG;
+    P2D HD;
+    P2D BG;
+    P2D BD;
+    vecteur Size ;
+    P2D middle ;
+} AABB;
 typedef struct Character
 {
     SDL_Texture *T_sprite ;
@@ -45,6 +55,8 @@ typedef struct Character
     bool helmet ;
     int player ;
     int sprite_type ;
+    AABB point ;
+    vecteur pos ;
 }character;
 typedef struct Timer
 {
@@ -85,4 +97,13 @@ SDL_Rect  right_movement(character *sprite, mouse m,timer *t,  SDL_Rect block, f
 //         void update_bullet(liste b, SDL_Renderer *renderer);
 
     void animation_boucle(SDL_Rect *block, int sens,timer *t, float seconde );
+
+
+    bool testbox(AABB box1,AABB box2);
+    bool testpoint(P2D point,AABB box);
+    void Collide( char** tab2, character *hero, bool *down, bool *saut, int scrolling_x,int* touche);
+
+
+
+
 #endif // SPRITE_T_H_INCLUDED
