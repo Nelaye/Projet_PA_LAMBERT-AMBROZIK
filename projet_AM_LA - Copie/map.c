@@ -4,58 +4,53 @@
 
 /*########################FUNCTION##################*/
 
-char** initialisation_tableau( int x , int y  )
-{
-  int i,j;
-   char ** tab = malloc( x*sizeof(char*) );
-   for ( i = 0; i<x; i++ )
-   {
-      tab[i] = malloc( y*sizeof(char) );
-     for ( j = 0; j<y; j++ )
-        {
-             tab[i][j] = '0';
+char** initialisation_tableau( int x , int y  ){
+    int i,j;
+    char ** tab = malloc( x*sizeof(char*) );
+
+    for ( i = 0; i<x; i++ ){
+        tab[i] = malloc( y*sizeof(char) );
+
+        for ( j = 0; j<y; j++ ){
+            tab[i][j] = '0';
         }
-   }
+    }
     return tab;
 }
 
-char ** init_tab_dynamic( int x, int y, FILE *fichier )
-{
-     char caracterActuel = 0;
+char** init_tab_dynamic( int x, int y, FILE *file ){
+    int i,j;
+    char caracterActuel = 0;
+    char ** tab = malloc( x*sizeof(char*) );
 
-   int i,j;
-   char ** tab = malloc( x*sizeof(char*) );
-   for ( i = 0; i<x; i++ )
-   {
-      tab[i] = malloc( y*sizeof(char) );
-     for ( j = 0; j<y; j++ )
-      {
-        if(caracterActuel != EOF)
-        {
-             caracterActuel = fgetc(fichier);
-            if(caracterActuel=='\n')
-            {
+    for ( i = 0; i<x; i++ ){
+        tab[i] = malloc( y*sizeof(char) );
 
-           caracterActuel = fgetc(fichier);
+        for ( j = 0; j<y; j++ ){
 
+            if(caracterActuel != EOF){
+                caracterActuel = fgetc(file);
+
+                if(caracterActuel=='\n'){
+                    caracterActuel = fgetc(file);
+
+                }
+                tab[i][j] =  caracterActuel ;
             }
-                         tab[i][j] =  caracterActuel ;
-
         }
-      }
-   }
-   return tab;
+    }
+    return tab;
 }
 
 
 
 
 
-void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,int *cpt  )
+void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,int *cpt )
 {
     int largeur_map = WINDOW_WIDTH/nombre_blocs_largeur;
     int hauteur_map = WINDOW_HEIGHT/nombre_blocs_hauteur;
-    int x,i,j,k,reste ,   affichage_hauteur ;
+    int x,i,j,k;
     SDL_Rect block;
     block.h=HAUTEUR_TILE;
     block.w=LARGEUR_TILE;
@@ -65,7 +60,7 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
 	{
 		for(j=0;j<nombre_blocs_hauteur;j++)
 		{
-			switch (table[j+affichage_hauteur][i+x]) {
+			switch (table[j][i+x]) {
             case '0':
                 block.x = 0;
                 block.y=0;

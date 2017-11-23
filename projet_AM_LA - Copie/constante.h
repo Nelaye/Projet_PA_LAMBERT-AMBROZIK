@@ -26,8 +26,8 @@
 #define HAUTEUR_TILE 100
 //power_glass tab
 #define NOMBRE_BLOCK_LARGEUR_POWER 200
-#define NOMBRE_BLOCK_HAUTEUR_POWER 10
-#define NOMBRE_AFFICHER_HAUTEUR_POWER 10
+#define NOMBRE_BLOCK_HAUTEUR_POWER 35
+#define NOMBRE_AFFICHER_HAUTEUR_POWER 25
 #define NOMBRE_AFFICHER_LARGEUR_POWER 50
 //level
 #define PICTURE_LEVEL_WIDTH 100
@@ -55,6 +55,8 @@
 //pistol
 #define NB_MAX_BULLETS 100
 // mouvement
+enum touche{z,d,s,q};
+
 enum mov{GAUCHE,DROIT,TOMBE};
 enum sprite_type{HERO};
 

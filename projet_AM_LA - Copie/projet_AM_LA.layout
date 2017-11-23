@@ -4,27 +4,32 @@
 	<ActiveTarget name="Debug" />
 	<File name="liste.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="798" topLine="33" />
+			<Cursor1 position="1374" topLine="41" />
 		</Cursor>
 	</File>
-	<File name="map.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2796" topLine="99" />
+			<Cursor1 position="2239" topLine="55" />
+		</Cursor>
+	</File>
+	<File name="sprite_t.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3432" topLine="96" />
+		</Cursor>
+	</File>
+	<File name="constante.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1426" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="sprite_t.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="251" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="map.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="880" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="sprite_t.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="11447" topLine="363" />
-		</Cursor>
-	</File>
-	<File name="main.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="16117" topLine="416" />
+			<Cursor1 position="307" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="niveau.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -32,19 +37,14 @@
 			<Cursor1 position="60" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="sprite_t.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2765" topLine="86" />
-		</Cursor>
-	</File>
-	<File name="constante.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="485" topLine="1" />
-		</Cursor>
-	</File>
 	<File name="niveau.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="map.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1275" topLine="72" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

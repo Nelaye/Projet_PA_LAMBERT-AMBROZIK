@@ -77,9 +77,8 @@ void liberer_liste(liste L)
 
 liste update_bullet(liste b, SDL_Renderer *renderer,int scrolling )
 {
-    liste L , M ;
+    liste L ;
     bullet premier_liste_L ;
-    bullet premier_liste_m ;
     L = b;
 
     SDL_Rect destination ;
@@ -91,8 +90,8 @@ liste update_bullet(liste b, SDL_Renderer *renderer,int scrolling )
     premier_liste_L = prem(L);
 
 
-    premier_liste_L.x += premier_liste_L.v.x ;
-    premier_liste_L.y +=premier_liste_L.v.y ;
+    premier_liste_L.x =premier_liste_L.x + (premier_liste_L.v.x) * 10 ;
+    premier_liste_L.y =premier_liste_L.y + (premier_liste_L.v.y) * 10 ;
     destination.x = floor(premier_liste_L.x-scrolling);
     destination.y = floor(premier_liste_L.y);
     destination.h = HAUTEUR_BULLET;
