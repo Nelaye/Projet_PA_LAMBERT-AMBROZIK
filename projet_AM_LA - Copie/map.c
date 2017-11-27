@@ -46,7 +46,7 @@ char** init_tab_dynamic( int x, int y, FILE *file ){
 
 
 
-void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,int *cpt )
+void Afficher( SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre_blocs_largeur,int nombre_blocs_hauteur, SDL_Renderer *renderer, int scrolling_x,int *cpt )
 {
     int largeur_map = WINDOW_WIDTH/nombre_blocs_largeur;
     int hauteur_map = WINDOW_HEIGHT/nombre_blocs_hauteur;
@@ -56,6 +56,7 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
     block.w=LARGEUR_TILE;
     k =(largeur_map/10)*10;
     x = (scrolling_x/k);
+
     for(i=0;i<nombre_blocs_largeur+2+(largeur_map - k) ;i++)
 	{
 		for(j=0;j<nombre_blocs_hauteur;j++)
@@ -84,7 +85,7 @@ void Afficher(SDL_Rect *R_tileset,SDL_Texture* T_tileset,char** table,int nombre
             default:
                 break;
 			}
-            R_tileset->x=i*largeur_map - scrolling_x%((100/nombre_blocs_largeur)*10);
+			R_tileset->x=i*largeur_map- scrolling_x%((100/nombre_blocs_largeur)*10);
 
             R_tileset->y=j*hauteur_map;
             SDL_RenderCopy(renderer,T_tileset,&block, R_tileset);

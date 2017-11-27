@@ -114,7 +114,7 @@ typedef struct Bullet
     /// \param c : mouse, ...
     /// \param block : SDL_Rect*, ...
     /// \param power : int, ...
-    void aim_arm(sprite_t* arm , mouse c, SDL_Rect* block, int power );
+    void aim_arm(sprite_t* arm , int aimX, int aimY, SDL_Rect* block, int power );
 
     /// \brief Function
     /// Function...
@@ -191,7 +191,7 @@ typedef struct Bullet
     /// \param scrol_actif : bool* , ...
     /// \param number_display_width : int , the number of tile in width
     /// \param number_display_height : int , the number of tile in height
-    void collide( char** tab2, character* hero, bool *down, bool *jump, int scrolling_x, int *key, bool *scrol_actif,int number_display_width,int number_display_height);
+    void collide( bool *scrolling_active,char** tab2, character* hero, bool *down, bool *jump, int scrolling_x, int *key, bool *scrol_actif,int number_display_width,int number_display_height);
 
     /// \brief Procedure return
     /// Procedure to stick the sprite to the closest position out the box
@@ -214,5 +214,7 @@ typedef struct Bullet
     /// \param box1 : AABB , The box
     /// \return bool, the test result : true if in or false is not in
     bool testpoint(P2D point,AABB box);
+
+
 
 #endif // SPRITE_T_H_INCLUDED

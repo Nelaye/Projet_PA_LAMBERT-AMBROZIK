@@ -16,8 +16,10 @@
 
 int main(int argc, char **argv)
 {
+    int x = 2;
+    int y = 1;
     int play_time =0 ;
-    int recharge  =  0 ;
+    bool recharge  =  false;
     int recharge_cpt = 0 ;
     int bullet_shot_gun_cpt, bullet_pistol_cpt  ;
     int touche_actif[5]={0,0,0,0,0};
@@ -27,6 +29,7 @@ int main(int argc, char **argv)
 
     float scroll_Larg= 0 ;
     float tempsActuel=0;
+
     float tempsPrecedent = 0 ;
     float gravity = 0.2;
 
@@ -39,12 +42,12 @@ int main(int argc, char **argv)
     monde1 = NULL;
     tab_power = NULL;
 
-    character *hero;
+    character *hero, *ship;
 
-    bullet b ;
+    bullet b , enemies_bullet;
     bullet_shot_gun_cpt = 0 ;
     bullet_pistol_cpt = 0 ;
-
+    liste liste_bullet_enemies = l_vide();
     liste liste_bullet_hero = l_vide() ;
 
     timer t , cpt_t   ;
@@ -57,13 +60,15 @@ int main(int argc, char **argv)
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     SDL_Event event;
-    SDL_Rect block1, b_bras ;
+    SDL_Rect block1,block2,  b_bras, b_left_barrel ;
     SDL_Surface *temp ;
 
-    sprite_t   *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras , *background, *bullet_hero_image;
+    sprite_t   *tiple , *curseur, *glass,*menu, *joueur1 , *joueur2 , *bras,*left_barrel,*right_barrel , *background, *bullet_hero_image;
 
     window = SDL_CreateWindow("Project AMBROZIK LAMBERT", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
     renderer = SDL_CreateRenderer(window, -1, 0);
+
+
 
 /**********************************************************************/
 
@@ -103,7 +108,6 @@ int main(int argc, char **argv)
     temp = IMG_Load("picture/menu.xcf");
     menu->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     sprite_cons(menu, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
-    menu->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
 
     //Load arm
     bras = (sprite_t*)malloc(sizeof(sprite_t));
@@ -112,7 +116,17 @@ int main(int argc, char **argv)
     bras->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     temp = IMG_Load("picture/bras.xcf");
     bras->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(bras,WINDOW_WIDTH,WINDOW_HEIGHT,0,0);
+    //Load barrel
+    left_barrel = (sprite_t*)malloc(sizeof(sprite_t));
+    right_barrel = (sprite_t*)malloc(sizeof(sprite_t));
+    left_barrel->T_sprite = NULL;
+    right_barrel->T_sprite = NULL;
+    temp = NULL ;
+    left_barrel->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    right_barrel->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    temp = IMG_Load("picture/bras.xcf");
+    left_barrel->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    right_barrel->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
 
     //Load player1
     joueur1 = (sprite_t*)malloc(sizeof(sprite_t));
@@ -150,11 +164,19 @@ int main(int argc, char **argv)
     glass->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
     sprite_cons(glass,WINDOW_WIDTH/NOMBRE_AFFICHER_LARGEUR_POWER ,WINDOW_HEIGHT/NOMBRE_AFFICHER_HAUTEUR_POWER , 0, 0);
 
+
+    ship = (character*)malloc(sizeof(character));
+    ship->T_sprite= NULL;
+    ship->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    temp = NULL;
+    temp = IMG_Load("picture/joueur_1_animation.xcf");
+    ship->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+
     //Load sprite
     hero = (character*)malloc(sizeof(character));
     hero->T_sprite= NULL;
-
     hero->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
+    //Load ship_sprite
 
     //touche
 
@@ -170,6 +192,7 @@ int main(int argc, char **argv)
         cpt_t.actualTime =  SDL_GetTicks();
 
         hero->pos.x=0;
+
 
         /************** compteur **************/
         if (cpt_t.actualTime - cpt_t.previousTime > 1 )
@@ -246,7 +269,7 @@ int main(int argc, char **argv)
                     }
                     if(event.key.keysym.sym == SDLK_m){
                         if( power == PISTOL ){
-                            if( bullet_pistol_cpt < MAGAZINE_GUN ){
+                            if( bullet_pistol_cpt < MAGAZINE_GUN && !recharge ){
                                 b.R_Bullet = bullet_hero_image->R_sprite ;
                                 b.T_Bullet = bullet_hero_image->T_sprite ;
                                 b.x = hero->R_sprite->x + scroll_Larg ;
@@ -259,7 +282,7 @@ int main(int argc, char **argv)
                             break;
                         }
                         if (power == SHOT_GUN ){
-                            if ( bullet_shot_gun_cpt < MAGAZINE_SHOT_GUN ){
+                            if ( bullet_shot_gun_cpt < MAGAZINE_SHOT_GUN && !recharge ){
 
                                 b.R_Bullet = bullet_hero_image->R_sprite;
                                 b.T_Bullet = bullet_hero_image->T_sprite ;
@@ -302,28 +325,25 @@ int main(int argc, char **argv)
 
         /*********************ACTION'S EVENT************************/
 
+
         /***** q *****/
+
         if(touche_actif[q]==1){
-            hero->pos.x-=5;
+
             block1 = left_movement(hero, m,&t, block1, 0.2 );
+
         }
         /***** d *****/
         if(touche_actif[d]==1){
 
-            if(hero->R_sprite->x > WINDOW_WIDTH/2 ){
-                hero->R_sprite->x  = WINDOW_WIDTH/2 ;
-
+            if(hero->R_sprite->x >= WINDOW_WIDTH/2 ){
                 if (scrol_actif){
-                   // scroll_Larg+=MOUVEMENT_HERO;
-                    scroll_Larg+=0;
-                    hero->pos.x+=0;
+                    scroll_Larg+=MOUVEMENT_HERO;
                 }
+                scrol_actif=true ;
             }
-
-            else{
-                hero->pos.x+=5;
                 block1 = right_movement(hero, m,&t, block1, 0.2 );
-            }
+
         }
 
         /***** z *****/
@@ -344,7 +364,7 @@ int main(int argc, char **argv)
             }
         }
 
-        if(recharge == 1 ){
+        if(recharge){
             bras->print = false ;
 
             if (recharge_cpt < play_time){
@@ -360,7 +380,42 @@ int main(int argc, char **argv)
         }
 
     /***************** Mouvement *********************/
-
+    /******Enemie_mouvement********/
+    if(ship->R_sprite->x > WINDOW_WIDTH -  SPRITE_SHIP_WIDTH)
+    {
+        x = -5 ;
+    }
+    if (ship->R_sprite->x < 0  ){
+        x = 5 ;
+    }
+    ship->R_sprite->x = ship->R_sprite->x + x ;
+    if (ship->R_sprite->y >  100 )
+    {
+        y = -1 ;
+    }
+    if (ship->R_sprite->y <  20 )
+    {
+        y = 1 ;
+    }
+    ship->R_sprite->y = ship->R_sprite->y + y ;
+    /******** shot_enemies **********/
+    if(play_time%50==0){
+     enemies_bullet.R_Bullet = bullet_hero_image->R_sprite ;
+                            enemies_bullet.T_Bullet = bullet_hero_image->T_sprite ;
+                            enemies_bullet.x = ship->R_sprite->x + scroll_Larg ;
+                            enemies_bullet.y = ship->R_sprite->y+ 10;
+                            enemies_bullet.v =  sbullet(ship->R_sprite,hero->R_sprite->x,hero->R_sprite->y );
+                             enemies_bullet.print = true ;
+                            liste_bullet_enemies = cons(enemies_bullet,liste_bullet_enemies);
+    enemies_bullet.R_Bullet = bullet_hero_image->R_sprite ;
+                            enemies_bullet.T_Bullet = bullet_hero_image->T_sprite ;
+                            enemies_bullet.x = ship->R_sprite->x + scroll_Larg + 30 ;
+                            enemies_bullet.y = ship->R_sprite->y + 10;
+                            enemies_bullet.v =  sbullet(ship->R_sprite,hero->R_sprite->x+10,hero->R_sprite->y );
+                            enemies_bullet.print = true ;
+                            liste_bullet_enemies = cons(enemies_bullet,liste_bullet_enemies);
+    }
+    /*******************************/
     hero->point.middle.x = hero->point.middle.x + hero->pos.x;//Application of the mouvement on axes x
     hero->point.middle.y = hero->point.middle.y + hero->pos.y;//Application of the mouvement on axes y
 
@@ -389,6 +444,9 @@ int main(int argc, char **argv)
         hero->R_sprite->y=0;
         hero->pos.y=0;
     }
+
+
+
 
     /*************** Menu ***************/
     if(jeu == 0 ){
@@ -427,13 +485,15 @@ int main(int argc, char **argv)
                 b_bras = initialization_animation(10,10,0,0);
                 block1 = initialization_animation(PICTURE_HERO_WIDTH,PICTURE_HERO_HEIGHT,0,4);
                 initialization(hero, HERO,SPRITE_HERO_WIDTH,SPRITE_HERO_HEIGHT,HERO_START_POS_X,HERO_START_POS_Y);
+                 initialization(ship, SHIP,SPRITE_SHIP_WIDTH,SPRITE_SHIP_HEIGHT,300,10);
+
                 go = 1 ;
             }
             /***** initialisation power *****/
             if (tab_power == NULL){
 
-                tab_power=initialisation_tableau(NOMBRE_BLOCK_HAUTEUR*(NOMBRE_AFFICHER_HAUTEUR_POWER/NOMBRE_AFFICHER_HAUTEUR)  ,NOMBRE_BLOCK_LARGEUR*(NOMBRE_AFFICHER_LARGEUR_POWER/NOMBRE_AFFICHER_LARGEUR) );
-                tab_power = initialisation_tableau(200,100);
+               // tab_power=initialisation_tableau(NOMBRE_BLOCK_HAUTEUR*(NOMBRE_AFFICHER_HAUTEUR_POWER/NOMBRE_AFFICHER_HAUTEUR)  ,NOMBRE_BLOCK_LARGEUR*(NOMBRE_AFFICHER_LARGEUR_POWER/NOMBRE_AFFICHER_LARGEUR) );
+                tab_power = initialisation_tableau(30,400);
             }
             /***** initialisation tile *****/
             if (monde1 == NULL){
@@ -449,32 +509,41 @@ int main(int argc, char **argv)
                 monde1 = init_tab_dynamic(NOMBRE_BLOCK_HAUTEUR,NOMBRE_BLOCK_LARGEUR,monde);
                 fclose(monde);
             }
+            /********** print ship *******/
 
             /********** Collide **********/
-
-           // collide(tab_power, hero, &down ,&jump, scroll_Larg,touche_actif,&scrol_actif,NOMBRE_AFFICHER_LARGEUR_POWER,NOMBRE_AFFICHER_HAUTEUR_POWER);
-            collide(monde1, hero, &down ,&jump, scroll_Larg, touche_actif, &scrol_actif, NOMBRE_AFFICHER_LARGEUR, NOMBRE_AFFICHER_HAUTEUR);
+            collide(&scrol_actif, monde1, hero, &down ,&jump, scroll_Larg, touche_actif, &scrol_actif, NOMBRE_AFFICHER_LARGEUR, NOMBRE_AFFICHER_HAUTEUR);
+            collide(&scrol_actif,tab_power, hero, &down ,&jump, scroll_Larg,touche_actif,&scrol_actif,NOMBRE_AFFICHER_LARGEUR_POWER,NOMBRE_AFFICHER_HAUTEUR_POWER);
             sprite_update(hero);
-
             /********** Print **********/
-
-            liste_bullet_hero = update_bullet(liste_bullet_hero,renderer,scroll_Larg);
-
             SDL_RenderCopy(renderer,background->T_sprite,NULL,background->R_sprite);
-
-            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&cpt);
             Afficher(glass->R_sprite, glass->T_sprite,tab_power,NOMBRE_AFFICHER_LARGEUR_POWER,NOMBRE_AFFICHER_HAUTEUR_POWER, renderer,scroll_Larg,&cpt);
+            Afficher(tiple->R_sprite, tiple->T_sprite,monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, renderer,scroll_Larg,&cpt);
 
             cursor(curseur , renderer,power );
-            sprite_cons(bras,50,50,hero->R_sprite->x-10,hero->R_sprite->y-10);
-            aim_arm(bras,m,&b_bras,power);
-            SDL_RenderCopy(renderer,hero->T_sprite,&block1, hero->R_sprite);
 
+            sprite_cons(bras,50,50,hero->R_sprite->x-10,hero->R_sprite->y-10);
+            sprite_cons(left_barrel,100,100,ship->R_sprite->x-10,ship->R_sprite->y-10);
+
+            aim_arm(left_barrel,hero->R_sprite->x,hero->R_sprite->y,&b_left_barrel,0);
+            aim_arm(bras,m.x,m.y,&b_bras,power);
+            SDL_RenderCopy(renderer,left_barrel->T_sprite,&b_left_barrel, left_barrel->R_sprite);
+            printf("%d",longueur(liste_bullet_hero));
+            SDL_RenderCopy(renderer,hero->T_sprite,&block1, hero->R_sprite);
+            SDL_RenderCopy(renderer,ship->T_sprite,NULL, ship->R_sprite);
             if(bras->print==true ){
                 SDL_RenderCopy(renderer,bras->T_sprite,&b_bras, bras->R_sprite);
             }
+            liste_bullet_hero = collide_bullet(liste_bullet_hero ,monde1,  NOMBRE_AFFICHER_LARGEUR , NOMBRE_AFFICHER_HAUTEUR,scroll_Larg ) ;
+            liste_bullet_hero = collide_bullet(liste_bullet_hero ,tab_power,  NOMBRE_AFFICHER_LARGEUR_POWER , NOMBRE_AFFICHER_HAUTEUR_POWER,scroll_Larg ) ;
 
-                liste_bullet_hero = update_bullet(liste_bullet_hero,renderer,scroll_Larg);
+            //liste_bullet_enemies = collide_bullet(liste_bullet_enemies ,monde1,  NOMBRE_AFFICHER_LARGEUR , NOMBRE_AFFICHER_HAUTEUR,scroll_Larg ) ;
+            liste_bullet_enemies = collide_bullet(liste_bullet_enemies ,tab_power,  NOMBRE_AFFICHER_LARGEUR_POWER , NOMBRE_AFFICHER_HAUTEUR_POWER,scroll_Larg ) ;
+
+            liste_bullet_enemies = update_bullet_collide(liste_bullet_enemies,renderer,scroll_Larg,10);
+
+            liste_bullet_hero = update_bullet_collide(liste_bullet_hero,renderer,scroll_Larg,10);
+
             }
 
             /********** Text *********/

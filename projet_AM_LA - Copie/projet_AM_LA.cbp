@@ -46,6 +46,7 @@
 			<Add directory="../../../../Program Files (x86)/CodeBlocks/MinGW/lib" />
 			<Add directory="../../../../Program Files (x86)/CodeBlocks/SDL2-2.0.5/i686-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="Makefile" />
 		<Unit filename="constante.h" />
 		<Unit filename="liste.c">
 			<Option compilerVar="CC" />
