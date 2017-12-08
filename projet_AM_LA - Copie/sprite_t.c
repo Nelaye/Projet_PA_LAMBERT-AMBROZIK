@@ -5,9 +5,7 @@
 #include "constante.h"
 #include "sprite_t.h"
 
-   	/*################################ Function ###############################*/
-
-		/** Create a special sprite from parameters **/
+/*################################ Function ###############################*/
 
 void initialization_timer(timer *t){
 
@@ -22,7 +20,8 @@ void initialization(character* sprite, int type, int width, int height, int x, i
     sprite->R_sprite->h = height ;
     sprite->R_sprite->w = width ;
     sprite->sprite_type = type ;
-
+    sprite->down= true ;
+    sprite->jump = false;
     switch (type){
         case HERO :
             {
@@ -37,6 +36,15 @@ void initialization(character* sprite, int type, int width, int height, int x, i
         case SHIP :
             {
                 sprite->life=SHIP_START_LIFE  ;
+                sprite->protection= 0 ;
+                sprite->print = true ;
+                sprite->shield = false ;
+                sprite->helmet = false ;
+                break;
+            }
+        case ENEMI :
+            {
+                sprite->life=ENEMI_START_LIFE  ;
                 sprite->protection= 0 ;
                 sprite->print = true ;
                 sprite->shield = false ;
@@ -151,7 +159,7 @@ SDL_Rect initialization_animation(int size_width, int size_height, int x , int y
     return block ;
 }
 
-SDL_Rect  left_movement(character *sprite, mouse m, timer *t,  SDL_Rect block, float second){
+SDL_Rect  left_movement(int type, character *sprite, mouse m, timer *t,  SDL_Rect block, float second){
 
     sprite->pos.x-=5;
     int animation;
@@ -186,17 +194,25 @@ SDL_Rect  left_movement(character *sprite, mouse m, timer *t,  SDL_Rect block, f
     return block;
 }
 
-SDL_Rect right_movement(character *sprite, mouse m, timer *t,  SDL_Rect block, float second){
+SDL_Rect right_movement(character *sprite, mouse m, timer *t,  SDL_Rect block, float second, bool scrolling_actif){
 
     int animation  ;
     switch (sprite->sprite_type){
 
         case HERO :
         {
-             if(sprite->R_sprite->x  < WINDOW_WIDTH/2){
+            if( scrolling_actif )
+            {
+                if(sprite->R_sprite->x  < WINDOW_WIDTH/2  ){
+                sprite->pos.x+=MOUVEMENT_HERO;
+                }
+                if(sprite->R_sprite->x  > WINDOW_WIDTH/2 + 16  ){
+                    sprite->pos.x=-MOUVEMENT_HERO;
+                }
+            }
+            if (!scrolling_actif){
                 sprite->pos.x+=5;
-             }
-
+            }
             if( sprite->R_sprite->x <= m.x ){
                 animation =  MAX_ANIMATION_PERSO_MOVE ;
                 block.y = PICTURE_HERO_HEIGHT ;
@@ -262,7 +278,7 @@ void sprite_update (character* hero){
 
 }
 
-void collide(bool *scrolling_active, char** tab2, character* hero, bool* down, bool* jump, int scrolling_x, int* key, bool *scrol_actif, int number_display_width, int number_display_height)
+void collide(bool *scrolling_active, char** tab2, character* sprite, bool* down, bool* jump, int scrolling_x, int* key, int number_display_width, int number_display_height)
 {
     int X,Y,X2,Y2,X3,Y3,X4,Y4, Ybis, Ybis2, Xbis, Xbis2;
     int size_w = (WINDOW_WIDTH / number_display_width);
@@ -271,23 +287,23 @@ void collide(bool *scrolling_active, char** tab2, character* hero, bool* down, b
     AABB box;
     bool stop = false;
 
-    X=((hero->point.HG.x+scrolling_x) / (WINDOW_WIDTH / number_display_width)) ;
-    Y=(hero->point.HG.y) / (WINDOW_HEIGHT / number_display_height);
-    X2=(hero->point.HD.x+scrolling_x) / (WINDOW_WIDTH / number_display_width);
-    Y2=(hero->point.HD.y) / (WINDOW_HEIGHT / number_display_height);
-    X3=(hero->point.BG.x+scrolling_x)/ (WINDOW_WIDTH / number_display_width);
-    Y3=(hero->point.BG.y) / (WINDOW_HEIGHT / number_display_height);
-    X4=(hero->point.BD.x+scrolling_x)/ (WINDOW_WIDTH / number_display_width);
-    Y4=(hero->point.BD.y) / (WINDOW_HEIGHT / number_display_height);
+    X=((sprite->point.HG.x+scrolling_x) / size_w) ;
+    Y=(sprite->point.HG.y) / size_h;
+    X2=(sprite->point.HD.x+scrolling_x) / size_w;
+    Y2=(sprite->point.HD.y) / size_h;
+    X3=(sprite->point.BG.x+scrolling_x)/ size_w;
+    Y3=(sprite->point.BG.y) / size_h;
+    X4=(sprite->point.BD.x+scrolling_x)/ size_w;
+    Y4=(sprite->point.BD.y) / size_h;
 
-    Ybis= (hero->point.BD.y+1) / (WINDOW_HEIGHT / number_display_height);
-    Ybis2= (hero->point.BD.y+1) / (WINDOW_HEIGHT / number_display_height);
+    Ybis= (sprite->point.BD.y+1) / size_h;
+    Ybis2= (sprite->point.BD.y+1) / size_h;
 
-    Xbis= (hero->point.HD.x+SPRITE_HERO_WIDTH) / (WINDOW_WIDTH / number_display_width);
-    Xbis2= (hero->point.BG.x+1) / (WINDOW_HEIGHT / number_display_height);
+    Xbis= (sprite->point.HD.x+SPRITE_HERO_WIDTH) / size_w;
+    Xbis2= (sprite->point.BG.x+1) / size_h;
 
 
-    int k =((WINDOW_WIDTH / number_display_width)/10)*10;
+    //int k =(size_w/10)*10;
     int scrol = 0; //(scrolling_x/k);
 
     if (tab2[Y][X + scrol] != '0'){
@@ -295,37 +311,41 @@ void collide(bool *scrolling_active, char** tab2, character* hero, bool* down, b
 
         box.HG.x = (X*(WINDOW_WIDTH / number_display_width));
         box.HG.y = Y*(WINDOW_HEIGHT / number_display_height);
-        box.HD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
+        box.HD.x = box.HG.x + size_w;
         box.HD.y = box.HG.y;
 
-        box.BD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
-        box.BD.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+        box.BD.x = box.HG.x + size_w;
+        box.BD.y = box.HG.y + size_h;
 
         box.BG.x = box.HG.x;
-        box.BG.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+        box.BG.y = box.HG.y + size_h;
 
 
-        retour(hero->pos, hero,box,0.01);
+        retour(sprite->pos, sprite,box,0.01);
+        if (sprite->sprite_type== HERO){
         key[q]=0;
+        }
     }
     else{
         if (tab2[Y2][X2+ scrol] != '0'){
             stop = true;
             *scrolling_active=false;
-            box.HG.x = X2*((WINDOW_WIDTH / number_display_width));
-            box.HG.y = Y2*(WINDOW_HEIGHT / number_display_height);
+            box.HG.x = X2*size_w;
+            box.HG.y = Y2*size_h;
 
-            box.HD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
+            box.HD.x = box.HG.x + size_w;
             box.HD.y = box.HG.y;
 
-            box.BD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
-            box.BD.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+            box.BD.x = box.HG.x + size_w;
+            box.BD.y = box.HG.y + size_h;
 
             box.BG.x = box.HG.x;
-            box.BG.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+            box.BG.y = box.HG.y + size_h;
 
-            retour(hero->pos, hero,box,0.01);
+            retour(sprite->pos, sprite,box,0.01);
+             if (sprite->sprite_type== HERO){
             key[d]=0;
+             }
         }
         else{
             if (tab2[Y3][X3+ scrol] != '0'){
@@ -333,19 +353,19 @@ void collide(bool *scrolling_active, char** tab2, character* hero, bool* down, b
                 *jump=false;
                 *down = false;
 
-                box.HG.x = X3*(WINDOW_WIDTH / number_display_width);
-                box.HG.y = Y3*(WINDOW_HEIGHT / number_display_height);
+                box.HG.x = X3*size_w;
+                box.HG.y = Y3*size_h;
 
-                box.HD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
+                box.HD.x = box.HG.x + size_w;
                 box.HD.y = box.HG.y;
 
-                box.BD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
-                box.BD.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+                box.BD.x = box.HG.x + size_w;
+                box.BD.y = box.HG.y + size_h;
 
                 box.BG.x = box.HG.x;
-                box.BG.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+                box.BG.y = box.HG.y + size_h;
 
-                retour(hero->pos, hero,box,0.01);
+                retour(sprite->pos, sprite,box,0.01);
             }
             else{
                 if (tab2[Y4][X4+ scrol] != '0'){
@@ -353,24 +373,24 @@ void collide(bool *scrolling_active, char** tab2, character* hero, bool* down, b
                     *jump=false;
                     *down = false;
                     *scrolling_active=false;
-                    box.HG.x = X4*(WINDOW_WIDTH / number_display_width);
-                    box.HG.y = Y4*(WINDOW_HEIGHT / number_display_height);
+                    box.HG.x = X4*size_w;
+                    box.HG.y = Y4*size_h;
 
-                    box.HD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
+                    box.HD.x = box.HG.x + size_w;
                     box.HD.y = box.HG.y;
 
-                    box.BD.x = box.HG.x + (WINDOW_WIDTH / number_display_width);
-                    box.BD.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+                    box.BD.x = box.HG.x + size_w;
+                    box.BD.y = box.HG.y + size_h;
 
                     box.BG.x = box.HG.x;
-                    box.BG.y = box.HG.y + (WINDOW_HEIGHT / number_display_height);
+                    box.BG.y = box.HG.y + size_h;
 
-                    retour(hero->pos, hero,box,0.01);
+                    retour(sprite->pos, sprite,box,0.01);
                 }
             }
         }
     }
-    if ((tab2[Ybis][X4+scrol] == '0') && (tab2[Ybis2][X3+scrol] == '0')){
+    if ((tab2[Ybis][Xbis] == '0') && (tab2[Ybis2][Xbis2] == '0')){
         *down=true;
     }
 
@@ -378,7 +398,7 @@ void collide(bool *scrolling_active, char** tab2, character* hero, bool* down, b
         *scrolling_active=true;
     } */
     if (stop){
-        hero->pos.y=0;
+        sprite->pos.y=0;
     }
 }
 
@@ -443,6 +463,80 @@ bool testbox(AABB box1,AABB box2){
     }
     return false;
 }
+void movement_ship(character* ship,int* movementX, int* movementY)
+{
+    if (*movementX == 1){
+        ship->R_sprite->x= ship->R_sprite->x - 5 ;
+    }
+    else{
+         ship->R_sprite->x= ship->R_sprite->x + 5 ;
+    }
+    if (ship->R_sprite->x >WINDOW_WIDTH -  SPRITE_SHIP_WIDTH ){
+       *movementX =  1 ;
+    }
+    if (ship->R_sprite->x < 0  ){
+        *movementX = 0 ;
+    }
+
+     if (*movementY == 1){
+        ship->R_sprite->y = ship->R_sprite->y- 1 ;
+    }
+    else{
+         ship->R_sprite->y = ship->R_sprite->y + 1 ;
+    }
+    if (ship->R_sprite->y >  100 )
+    {
+        *movementY = 1;
+    }
+    if (ship->R_sprite->y <  20 )
+    {
+        *movementY = 0;
+    }
+}
+
+sprite_t* loading ( char* name_picture, int width ,int height ,int x ,int y, SDL_Renderer* renderer, bool cons)
+{
+    sprite_t* S_t;
+
+    SDL_Surface* temp;
+    temp = NULL;
+
+    S_t=(sprite_t*)malloc(sizeof(sprite_t));
+    S_t->R_sprite=(SDL_Rect*)malloc(sizeof(SDL_Rect));
+    S_t->T_sprite = NULL;
+
+    temp=IMG_Load(name_picture);
+    S_t->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+
+    if(cons){
+        sprite_cons( S_t, width, height, x , y);
+    }
+    SDL_FreeSurface(temp);
+
+    return S_t;
+}
+
+void  enemi_movement(character* sprite, character* target , int scrolling )
+{
+  sprite->R_sprite->x =  sprite->R_sprite->x -scrolling;
+  if(sprite->R_sprite->x > target->R_sprite->x){
+    if(sprite->R_sprite->x- 100 > target->R_sprite->x){
+       // sprite->R_sprite->x =  sprite->R_sprite->x - scrolling ;
+        sprite->pos.x = -1 ;
+    }else{
+    sprite->pos.x = 0 ;
+    }
+  }
+  else{
+     if(sprite->R_sprite->x + 100 < target->R_sprite->x){
+         sprite->pos.x = 1 ;
+     }else{
+      sprite->pos.x = 0 ;
+     }
+  }
+
+}
+
 
 
 

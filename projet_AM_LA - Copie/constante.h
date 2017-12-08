@@ -23,6 +23,13 @@
 #define SHIP_START_LIFE 1
 #define PICTURE_SHIP_WIDTH 50
 #define PICTURE_SHIP_HEIGHT 100
+
+//SHIP
+#define SPRITE_ENEMI_WIDTH  20
+#define SPRITE_ENEMI_HEIGHT 30
+#define ENEMI_START_LIFE 1
+#define PICTURE_ENEMI_WIDTH 50
+#define PICTURE_ENEMI_HEIGHT 100
 //bullet
 #define HAUTEUR_BULLET 16
 #define LARGEUR_BULLET 16
@@ -60,11 +67,11 @@
 //pistol
 #define NB_MAX_BULLETS 100
 // mouvement
-enum touche{z,d,s,q};
+enum touche{z,d,s,q,space};
 
 enum mov{GAUCHE,DROIT,TOMBE};
-enum sprite_type{HERO,SHIP};
-
+enum sprite_type{HERO,SHIP,ENEMI};
+enum jeu{START,MENU_HERO,GAME_GO,DEAD};
 
 
 

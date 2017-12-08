@@ -4,20 +4,23 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-    /*############################# Abstract Type #############################*/
 
+/*############################# Abstract Type #############################*/
 
+/// \struct mouse " coordinate of the mouse "
 typedef struct Mouse
 {
     unsigned short int  x,y ;
     bool print ;
 }mouse ;
 
+/// \struct compteur " ... "
 typedef struct Compteur
 {
     int nb ;
 }compteur ;
 
+/// \struct sprite_t "..."
 typedef struct Sprite_t
 {
     SDL_Texture *T_sprite ;
@@ -25,11 +28,15 @@ typedef struct Sprite_t
     bool print ;
 }sprite_t;
 
-typedef struct Vecteur
+/// \struct vecteur " vector type"
+
+typedef struct Vector
 {
     float x ;
     float y ;
 }vecteur ;
+
+/// \struct P2D " coordinates of a point "
 
 typedef struct Point_2d
 {
@@ -37,7 +44,9 @@ typedef struct Point_2d
     float y ;
 }P2D ;
 
-typedef struct AABB // Axis-Aligned Bounding Box
+/// \struct AABB " Axis-Aligned Bounding Box "
+
+typedef struct AABB
 {
     P2D HG;
     P2D HD;
@@ -47,21 +56,31 @@ typedef struct AABB // Axis-Aligned Bounding Box
     P2D middle ;
 } AABB;
 
+/// \struct character " gather of all attribute for a sprite "
+
 typedef struct Character
 {
+    bool jump ;
+    bool down;
+    int player ;
+    int sprite_type ;
+    int life ;
+
     SDL_Texture *T_sprite ;
     SDL_Rect *R_sprite ;
-    int life ;
-    int protection ;
+
     bool print ;
+
+    AABB point ;
+    vecteur pos ;
+    int protection ;
     int type_shield ;
     bool shield ;
     bool helmet ;
-    int player ;
-    int sprite_type ;
-    AABB point ;
-    vecteur pos ;
+
 }character;
+
+/// \struct timer " ... "
 
 typedef struct Timer
 {
@@ -69,18 +88,26 @@ typedef struct Timer
     int previousTime;
 }timer;
 
+/// \struct bullet " gather of all attribute for a bullet "
+
 typedef struct Bullet
 {
-    float x,y ;
-    float DirX,DirY ;
     int vitesse ;
-    vecteur v ;
-    bool print ;
+
     SDL_Rect *R_Bullet ;
     SDL_Texture *T_Bullet ;
-    AABB point ;
+
+    float x,y ;
+    float DirX,DirY ;
+
+    bool print ;
+
+    vecteur v ;
+
 }bullet;
-		    /*################################ Function ###############################*/
+
+/*################################ Function ###############################*/
+
     /// \brief Procedure who initialize the timer
     /// Procedure ...
     /// \param t : timer*, ...
@@ -88,32 +115,34 @@ typedef struct Bullet
 
     ///////////////////////////movement//////////////////////////////////
 
-    /// \brief Function ...
-    /// Function...
-    /// \param sprite :character*, ...
-    /// \param m : mouse, ...
+    /// \brief Function left movement
+    /// Function which return  a picture animation and change the position's sprite
+    /// \param sprite :character*, choose the character you want to animate
+    /// \param m : mouse, value of the mouse to know where the sprite looks
     /// \param t : timer*
-    /// \param block : SDL_Rect, ...
-    /// \param second : float, ...
-    /// \return SDL_Rect, ...
-    SDL_Rect  left_movement(character *sprite, mouse m,timer *t, SDL_Rect block, float second);
+    /// \param block : SDL_Rect, choose picture
+    /// \param second : float,  how long is an amimation
+    /// \return SDL_Rect, picture choose
+   // SDL_Rect  left_movement(character *sprite, mouse m,timer *t, SDL_Rect block, float second);
 
-    /// \brief Function
-    /// Function...
-    /// \param sprite :character*, ...
-    /// \param m : mouse, ...
+    SDL_Rect  left_movement(int type, character *sprite, mouse m, timer *t,  SDL_Rect block, float second);
+    ///\brief Function right movement
+    /// Function which return  a picture animation and change the position's sprite
+    /// \param sprite :character*, choose the character you want to animate
+    /// \param m : mouse, value of the mouse to know where the sprite looks
     /// \param t : timer*
-    /// \param block : SDL_Rect, ...
-    /// \param second : float, ...
-    /// \return SDL_Rect, ...
-    SDL_Rect  right_movement(character *sprite, mouse m,timer *t,  SDL_Rect block, float second);
+    /// \param block : SDL_Rect, choose picture
+    /// \param second : float,  how long is an amimation
+    /// \return SDL_Rect, picture choose
+    SDL_Rect  right_movement(character *sprite, mouse m,timer *t,  SDL_Rect block, float second, bool scrolling_actif);
 
-    /// \brief Procedure
-    /// Procedure ...
-    /// \param arm : sprite_t*, ...
-    /// \param c : mouse, ...
+    /// \brief Procedure aim
+    /// Procedure which choose the position on the picture which arm a sprite
+    /// \param arm : sprite_t* you can to animate
+    /// \param int aimX x coordinate  you can aim
+    /// \param int aimY y coordinate  you can aim
     /// \param block : SDL_Rect*, ...
-    /// \param power : int, ...
+    /// \param power : int, chose your power for choose the picture list
     void aim_arm(sprite_t* arm , int aimX, int aimY, SDL_Rect* block, int power );
 
     /// \brief Function
@@ -135,8 +164,8 @@ typedef struct Bullet
     /// \param y : int, ...
     void initialization(character* sprite, int type, int width, int height, int x, int y );
 
-    /// \brief Procedure
-    /// Procedure ...
+    /// \brief Procedure which  initialize character
+    /// Procedure which initialize all
     /// \param sprite : sprite_t*, ...
     /// \param width : int, ...
     /// \param height : int, ...
@@ -171,7 +200,7 @@ typedef struct Bullet
     /// Procedure ...
     /// \param block : SDL_Rect*, ...
     /// \param sens : int, ...
-    /// \param t : timer*, ...
+    /// \param t : timer*,
     /// \param second : float, ....
     void animation_boucle(SDL_Rect* block, int sens, timer* t, float second);
 
@@ -191,7 +220,7 @@ typedef struct Bullet
     /// \param scrol_actif : bool* , ...
     /// \param number_display_width : int , the number of tile in width
     /// \param number_display_height : int , the number of tile in height
-    void collide( bool *scrolling_active,char** tab2, character* hero, bool *down, bool *jump, int scrolling_x, int *key, bool *scrol_actif,int number_display_width,int number_display_height);
+    void collide( bool *scrolling_active,char** tab2, character* hero, bool *down, bool *jump, int scrolling_x, int *key,int number_display_width,int number_display_height);
 
     /// \brief Procedure return
     /// Procedure to stick the sprite to the closest position out the box
@@ -214,6 +243,20 @@ typedef struct Bullet
     /// \param box1 : AABB , The box
     /// \return bool, the test result : true if in or false is not in
     bool testpoint(P2D point,AABB box);
+
+    /// \brief Procedure loading
+    /// Procedure to initialize the texture display and her coordinate
+    /// \param S_t : struct , the struct for the initialize
+    /// \param name_picture : char* , the name and the way of the file .xcf
+    /// \param width : int, the width of the SDL_texture
+    /// \param height : int, the height of the SDL_texture
+    /// \param x : int, the coordinate x of the SDL_texture
+    /// \param y : int, the coordinate y of the SDL_texture
+    /// \param renderer : SDL_Renderer, ...
+    /// \param cons : boolean, if it is necessary to call the function sprite_cons
+    sprite_t* loading ( char* name_picture, int width ,int height ,int x ,int y, SDL_Renderer* renderer, bool cons);
+
+    void enemi_movement(character* sprite, character* target, int scrolling );
 
 
 

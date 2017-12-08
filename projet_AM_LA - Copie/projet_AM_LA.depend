@@ -422,7 +422,7 @@
 	<stdlib.h>
 	<stdio.h>
 
-1511777454 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\main.c
+1512576979 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\main.c
 	<SDL2/SDL.h>
 	<stdbool.h>
 	<stdio.h>
@@ -434,19 +434,20 @@
 	"sprite_t.h"
 	"map.h"
 	"liste.h"
+	"niveau.h"
 
-1511722885 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\constante.h
+1512334459 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\constante.h
 
-1511705252 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\sprite_t.h
+1512575858 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\sprite_t.h
 	<SDL2/SDL.h>
 	<stdbool.h>
 	<stdio.h>
 	<stdlib.h>
 
-1511554640 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\map.c
+1512158073 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\map.c
 	"map.h"
 
-1511702715 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\sprite_t.c
+1512575888 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\sprite_t.c
 	<SDL2/SDL.h>
 	<stdbool.h>
 	<math.h>
@@ -457,7 +458,7 @@
 	<_mingw.h>
 	<stddef.h>
 
-1376160143 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+1376156543 c:\program files (x86)\codeblocks\sdl2-2.0.5\i686-w64-mingw32\include\sdl2\sdl_ttf.h
 	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
@@ -468,7 +469,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1511448285 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\map.h
+1512157953 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\map.h
 	<SDL2/SDL.h>
 	<stdbool.h>
 	<stdlib.h>
@@ -476,24 +477,29 @@
 	"sprite_t.h"
 	"constante.h"
 
-1509463440 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\niveau.c
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
+1512333884 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\niveau.c
+	"niveau.h"
 
-1509130595 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\niveau.h
+1512333207 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\niveau.h
 	<SDL2/SDL.h>
 	<stdbool.h>
-	<stdlib.h>
 	<stdio.h>
+	<stdlib.h>
 	"sprite_t.h"
 	"constante.h"
 
-1511724056 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\liste.h
+1512410813 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\liste.h
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"sprite_t.h"
 
-1510768763 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\liste.c
+1512333207 source:c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\liste.c
+
+1512237566 c:\users\huga\projet_pa_lambert-ambrozik\projet_am_la - copie\sprite_t.c
+	<SDL2/SDL.h>
+	<stdbool.h>
+	<math.h>
+	"constante.h"
+	"sprite_t.h"
 
