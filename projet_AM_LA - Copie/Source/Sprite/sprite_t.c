@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-#include "constante.h"
+#include "../constante.h"
 #include "sprite_t.h"
 
 /*################################ Function ###############################*/

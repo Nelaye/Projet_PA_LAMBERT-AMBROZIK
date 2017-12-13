@@ -6,5 +6,5 @@ all : $(TARGET)
 
 debug : $(OBJ)
 
-$(OBJDIR)%.o : %.c %.h
+$(OBJDIR)%.o : %.c
 	@$(CC) -o $@ -c $< $(CFLAGS) $(INC)
