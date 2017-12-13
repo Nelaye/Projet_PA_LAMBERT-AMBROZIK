@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "sprite_t.h"
+#include "../Sprite/sprite_t.h"
 typedef struct Liste *liste ;
 struct Liste
 {

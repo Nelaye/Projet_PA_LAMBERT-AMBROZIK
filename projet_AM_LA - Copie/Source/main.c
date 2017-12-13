@@ -10,10 +10,10 @@
 #include <SDL2/SDL_image.h>
 //#include <SDL2/SDL_ttf.h>
 #include "constante.h"
-#include "sprite_t.h"
-#include "map.h"
-#include "liste.h"
-#include "niveau.h"
+#include "Sprite/sprite_t.h"
+#include "Map/map.h"
+#include "Liste/liste.h"
+#include "Niveau/niveau.h"
 
 int main(int argc, char **argv)
 {

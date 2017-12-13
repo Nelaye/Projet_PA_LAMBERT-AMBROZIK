@@ -6,8 +6,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "sprite_t.h"
-#include "constante.h"
+#include "../Sprite/sprite_t.h"
+#include "../constante.h"
 
     /*############################# Abstract Type #############################*/
     typedef struct Block_glass

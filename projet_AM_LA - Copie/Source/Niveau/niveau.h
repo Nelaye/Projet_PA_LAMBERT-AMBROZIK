@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "sprite_t.h"
-#include "constante.h"
+#include "../Sprite/sprite_t.h"
+#include "../constante.h"
 
 typedef struct Level
 {
