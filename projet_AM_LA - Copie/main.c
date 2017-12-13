@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     int power;
     int game=1;
 
-    float scroll_Larg= 0 ;
+    int scroll_Larg= 0 ;
     float tempsActuel=0;
     float tempsPrecedent = 0 ;
     float gravity = 0.2;
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     SDL_Rect block1, block2, b_bras, b_left_barrel;
     SDL_Surface *temp ;
 
-    sprite_t  *tiple, *curseur, *glass, *menu, *player1, *player2, *bras, *left_barrel, *right_barrel, *background, *bullet_hero_image ;
+    sprite_t  *tiple, *curseur, *glass, *menu,*game_over, *player1, *player2, *bras, *left_barrel, *right_barrel, *background, *bullet_hero_image ;
 
     window = SDL_CreateWindow("Project AMBROZIK LAMBERT", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
     renderer = SDL_CreateRenderer(window, -1, 0);
@@ -73,39 +73,26 @@ int main(int argc, char **argv)
 
 /*********************************** LOAD ***********************************/
     //Load bullet
-    /*bullet_hero_image = (sprite_t*)malloc(sizeof(sprite_t));
-    bullet_hero_image->T_sprite = NULL;
-    bullet_hero_image->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
-    temp = NULL ;
-    temp = IMG_Load("picture/bullet.xcf");
-    bullet_hero_image->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(bullet_hero_image, WINDOW_WIDTH, WINDOW_HEIGHT,0,0 );*/
+
     bullet_hero_image=loading( "picture/bullet.xcf", WINDOW_WIDTH, WINDOW_HEIGHT,0,0, renderer, true);
 
     //Load background
-    /*
-    background->T_sprite = NULL;
-    temp = NULL ;
-    temp = IMG_Load("picture/background.jpg");
-    background->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(background, WINDOW_WIDTH, WINDOW_HEIGHT,0,0 );*/
+
     background=loading( "picture/background.jpg", WINDOW_WIDTH, WINDOW_HEIGHT,0,0, renderer, true);
 
+    game_over=loading( "picture/game_over.xcf", WINDOW_WIDTH, WINDOW_HEIGHT,0,0, renderer, true);
     //Load power/pistol cursor
-    /*
-    curseur->T_sprite = NULL;
-    temp = NULL ;
-    temp = IMG_Load("picture/cursor.xcf");
-    curseur->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);*/
+
     curseur=loading( "picture/cursor.xcf", 0, 0,0,0, renderer, false);
 
     //Load menu
-    /*
-    menu->T_sprite = NULL;
-    temp = NULL ;
-    temp = IMG_Load("picture/menu.xcf");
-    menu->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
-    sprite_cons(menu, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );*/
+
+    //menu->T_sprite = NULL;
+    //temp = NULL ;
+    //temp = IMG_Load("picture/menu.xcf");
+    //menu->T_sprite = SDL_CreateTextureFromSurface(renderer, temp);
+    //sprite_cons(menu, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
+    //menu->R_sprite  = (SDL_Rect*)malloc(sizeof(SDL_Rect));
     menu=loading( "picture/menu.xcf", WINDOW_WIDTH, WINDOW_HEIGHT,0,0,renderer, true);
 
     //Load arm
@@ -160,6 +147,7 @@ int main(int argc, char **argv)
     sprite_cons(glass,WINDOW_WIDTH/NOMBRE_AFFICHER_LARGEUR_POWER ,WINDOW_HEIGHT/NOMBRE_AFFICHER_HAUTEUR_POWER , 0, 0);*/
     glass=loading( "picture/block_glass.xcf", WINDOW_WIDTH/NOMBRE_AFFICHER_LARGEUR,WINDOW_HEIGHT/NOMBRE_AFFICHER_HAUTEUR,0,0, renderer, true);
 
+    sprite_cons(glass,WINDOW_WIDTH/NOMBRE_AFFICHER_LARGEUR_POWER ,WINDOW_HEIGHT/NOMBRE_AFFICHER_HAUTEUR_POWER , 0, 0);
    //Load ship
     ship = (character*)malloc(sizeof(character));
     ship->T_sprite= NULL;
@@ -195,7 +183,6 @@ int main(int argc, char **argv)
         cpt_t.actualTime =  SDL_GetTicks();
 
         hero->pos.x=0;
-
         enemi->pos.x=0;
 
         /************** Counter **************/
@@ -335,7 +322,6 @@ int main(int argc, char **argv)
                 }
             }
                 block1 = right_movement(hero, m,&t, block1, 0.2,scrol_actif );
-
         }
 
         /***** z *****/
@@ -344,8 +330,9 @@ int main(int argc, char **argv)
            // jump = true;
             hero->jump= true;
             hero->down = true ;
-          //  down = true;
         }
+
+
 
         /******************************/
 
@@ -392,6 +379,7 @@ int main(int argc, char **argv)
     if(hero->R_sprite->x<0){
 
         hero->R_sprite->x=0 + scroll_Larg;
+
     }
 
     /*************** Menu ***************/
@@ -399,8 +387,8 @@ int main(int argc, char **argv)
         //game= start(renderer ,menu ,touche_actif);
     }
     if(game == MENU_HERO){
-        //sprite_cons(menu, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
-        //SDL_RenderCopy(renderer,menu->T_sprite,NULL, menu->R_sprite);
+        sprite_cons(menu, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
+        SDL_RenderCopy(renderer,menu->T_sprite,NULL, menu->R_sprite);
         SDL_RenderCopy(renderer,player1->T_sprite,NULL, player1->R_sprite);
         SDL_RenderCopy(renderer,player2->T_sprite,NULL, player2->R_sprite);
 
@@ -462,19 +450,27 @@ int main(int argc, char **argv)
 
             hero->point.middle.x = hero->point.middle.x + hero->pos.x;//Application of the mouvement on axes x
             hero->point.middle.y = hero->point.middle.y + hero->pos.y;//Application of the mouvement on axes y
-
-
-
-            sprite_update(hero);// Update the coordinate of the sprite
-
-            if (hero->down){
-            //if (down){// Activation of the gravity
+             sprite_update(hero);
+              if (hero->down){
                 hero->pos.y =hero->pos.y + gravity;
             }
-            if (enemi->down)
+           //,SPRITE_ENEMI_WIDTH,SPRITE_ENEMI_HEIGHT, NOMBRE_AFFICHER_LARGEUR, NOMBRE_AFFICHER_HAUTEUR);
+
+
+           // enemi_movement(enemi,hero,scroll_Larg, monde1,NOMBRE_AFFICHER_LARGEUR,NOMBRE_AFFICHER_HAUTEUR, hero);
+
+            enemi_jump_tab(enemi,hero,monde1, NOMBRE_AFFICHER_LARGEUR, NOMBRE_AFFICHER_HAUTEUR , scroll_Larg);
+            enemi->point.middle.x = enemi->point.middle.x + enemi->pos.x;  //enemi->pos.x;//Application of the mouvement on axes x
+            enemi->point.middle.y = enemi->point.middle.y + enemi->pos.y;
+
+           // Update the coordinate of the sprite
+            sprite_update(enemi);
+
+          //  if (enemi->down)
             {
-                  enemi->pos.y =enemi->pos.y + gravity;
+                enemi->pos.y =enemi->pos.y + gravity;
             }
+
             collide(&scrol_actif, monde1, hero, &hero->down ,&hero->jump, scroll_Larg, touche_actif, NOMBRE_AFFICHER_LARGEUR, NOMBRE_AFFICHER_HAUTEUR);
             collide(&scrol_actif, monde1, enemi, &enemi->down ,&enemi->jump, scroll_Larg, touche_actif, NOMBRE_AFFICHER_LARGEUR, NOMBRE_AFFICHER_HAUTEUR);
             collide(&scrol_actif,tab_power, hero, &hero->down ,&hero->jump, scroll_Larg,touche_actif,NOMBRE_AFFICHER_LARGEUR_POWER,NOMBRE_AFFICHER_HAUTEUR_POWER);
@@ -503,34 +499,40 @@ int main(int argc, char **argv)
                 if(bras->print){
                     SDL_RenderCopy(renderer,bras->T_sprite,&b_bras, bras->R_sprite);
                 }
+
             }
+             if(!hero->print){
+                 game = DEAD;
+             }
 
             if (enemi->print){
-
-                sprite_update(enemi);
-                enemi_movement(enemi,hero,scroll_Larg);
-                enemi->point.middle.x = enemi->point.middle.x + enemi->pos.x;  //enemi->pos.x;//Application of the mouvement on axes x
-                enemi->point.middle.y = enemi->point.middle.y + enemi->pos.y;
-
 
                 SDL_RenderCopy(renderer,enemi->T_sprite,NULL, enemi->R_sprite);
                 liste_bullet_enemies = update_bullet_collide(liste_bullet_enemies,renderer,scroll_Larg,10);
             }
 
 
-            //liste_bullet_hero = collide_bullet(liste_bullet_hero ,monde1,  NOMBRE_AFFICHER_LARGEUR , NOMBRE_AFFICHER_HAUTEUR,scroll_Larg ) ;
-            //liste_bullet_hero = collide_bullet(liste_bullet_hero ,tab_power,  NOMBRE_AFFICHER_LARGEUR_POWER , NOMBRE_AFFICHER_HAUTEUR_POWER,scroll_Larg ) ;
+            liste_bullet_hero = collide_bullet(liste_bullet_hero ,monde1,  NOMBRE_AFFICHER_LARGEUR , NOMBRE_AFFICHER_HAUTEUR,scroll_Larg,16,16) ;
+            liste_bullet_hero = collide_bullet(liste_bullet_hero ,tab_power,  NOMBRE_AFFICHER_LARGEUR_POWER , NOMBRE_AFFICHER_HAUTEUR_POWER,scroll_Larg,16,16 ) ;
 
-            //liste_bullet_enemies = collide_bullet(liste_bullet_enemies ,monde1,  NOMBRE_AFFICHER_LARGEUR , NOMBRE_AFFICHER_HAUTEUR,scroll_Larg ) ;
-            //liste_bullet_enemies = collide_bullet(liste_bullet_enemies ,tab_power,  NOMBRE_AFFICHER_LARGEUR_POWER , NOMBRE_AFFICHER_HAUTEUR_POWER,scroll_Larg ) ;
+            liste_bullet_enemies = collide_bullet(liste_bullet_enemies ,monde1,  NOMBRE_AFFICHER_LARGEUR , NOMBRE_AFFICHER_HAUTEUR,scroll_Larg,16,16 ) ;
+            liste_bullet_enemies = collide_bullet(liste_bullet_enemies ,tab_power,  NOMBRE_AFFICHER_LARGEUR_POWER , NOMBRE_AFFICHER_HAUTEUR_POWER,scroll_Larg,16,16 ) ;
 
-            //liste_bullet_enemies= collide_bullet_sprite(liste_bullet_enemies , hero , HAUTEUR_BULLET,scroll_Larg);
+            liste_bullet_enemies= collide_bullet_sprite(liste_bullet_enemies , hero , HAUTEUR_BULLET,scroll_Larg);
             liste_bullet_hero = collide_bullet_sprite(liste_bullet_hero , ship , HAUTEUR_BULLET,scroll_Larg);
+            printf("%d\n", hero->R_sprite->x);
             }
+            else if (game == DEAD){
+
+        sprite_cons(game_over, WINDOW_WIDTH,WINDOW_HEIGHT,0,0 );
+        SDL_RenderCopy(renderer,game_over->T_sprite,NULL, game_over->R_sprite);
+         if(event.key.keysym.sym == SDLK_SPACE) running = false ;
+                   }
 
             /********** Text *********/
             SDL_RenderPresent(renderer);
             tempsPrecedent = tempsActuel;
+
 
         }
         else

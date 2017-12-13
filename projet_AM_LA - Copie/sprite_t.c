@@ -515,13 +515,20 @@ sprite_t* loading ( char* name_picture, int width ,int height ,int x ,int y, SDL
 
     return S_t;
 }
-
-void  enemi_movement(character* sprite, character* target , int scrolling )
+void jump_enemi(character* sprite, char** tab )
 {
-  sprite->R_sprite->x =  sprite->R_sprite->x -scrolling;
-  if(sprite->R_sprite->x > target->R_sprite->x){
-    if(sprite->R_sprite->x- 100 > target->R_sprite->x){
-       // sprite->R_sprite->x =  sprite->R_sprite->x - scrolling ;
+if (!sprite->jump){
+            sprite->pos.y=-5;
+            sprite->jump= true;
+            sprite->down = true ;
+        }
+}
+
+/*void  enemi_movement(character* sprite, character* target , int scrolling)
+{
+    if(sprite->R_sprite->x > target->R_sprite->x){
+
+        if(sprite->R_sprite->x- 100 > target->R_sprite->x){
         sprite->pos.x = -1 ;
     }else{
     sprite->pos.x = 0 ;
@@ -535,16 +542,47 @@ void  enemi_movement(character* sprite, character* target , int scrolling )
      }
   }
 
+}*/
+
+void enemi_jump_tab(character* sprite,character* target, char** tab,int number_display_width, int number_display_height, int scrolling)
+{
+
+    int X = (sprite->R_sprite->x+ scrolling) /(WINDOW_WIDTH/number_display_width);
+
+    int Y = sprite->R_sprite->y /(WINDOW_WIDTH/number_display_height);
+    Y = number_display_height - Y    ;
+    //printf("%d\n",  sprite->R_sprite->x);
+    if(sprite->R_sprite->x > target->R_sprite->x){
+
+        if(sprite->R_sprite->x- 100 > target->R_sprite->x){
+            sprite->pos.x = -1 ;
+
+
+            if( tab[Y][X-1]!='0'){
+                sprite->pos.x =-2;
+                jump_enemi(sprite, tab );
+            }
+        }else{
+            sprite->pos.x = 0 ;
+        }
+    }
+     else{
+     if(sprite->R_sprite->x + 100 < target->R_sprite->x){
+         sprite->pos.x = 1 ;
+
+    if( tab[Y][X+1]!='0'){
+        sprite->pos.x =2;
+        jump_enemi(sprite, tab );
+
+    }
+     }else{
+      sprite->pos.x = 0 ;
+     }
+  }
+
+
+
 }
-
-
-
-
-
-
-
-
-
 
 
 

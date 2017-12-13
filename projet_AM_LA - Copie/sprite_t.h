@@ -256,7 +256,7 @@ typedef struct Bullet
     /// \param cons : boolean, if it is necessary to call the function sprite_cons
     sprite_t* loading ( char* name_picture, int width ,int height ,int x ,int y, SDL_Renderer* renderer, bool cons);
 
-    void enemi_movement(character* sprite, character* target, int scrolling );
+   // void enemi_movement(character* sprite, character* target, int scrolling );
 
 
 
